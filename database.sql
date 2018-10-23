@@ -135,4 +135,13 @@ ALTER TABLE "user_preferences" ADD CONSTRAINT "user_preferences_fk2" FOREIGN KEY
 
 ALTER TABLE "public"."bathroom" ADD COLUMN "additional_directions" text;
 
-
+INSERT INTO "public"."amenities"("name") VALUES('Key required') RETURNING "id", "name";
+INSERT INTO "public"."amenities"("name") VALUES('Employee permission required') RETURNING "id", "name";
+INSERT INTO "public"."amenities"("name") VALUES('Handicap Accessable') RETURNING "id", "name";
+INSERT INTO "public"."amenities"("name") VALUES('Sharps disposal') RETURNING "id", "name";
+INSERT INTO "public"."amenities"("name") VALUES('Paper Towels') RETURNING "id", "name";
+INSERT INTO "public"."amenities"("name") VALUES('Blow Dryer') RETURNING "id", "name";
+INSERT INTO "public"."amenities"("name") VALUES('Changing Table') RETURNING "id", "name";
+INSERT INTO "public"."amenities"("name") VALUES('Mirrors') RETURNING "id", "name";
+INSERT INTO "public"."amenities"("name") VALUES('Attendant') RETURNING "id", "name";
+INSERT INTO "public"."amenities"("name") VALUES('Vending Machine') RETURNING "id", "name";
