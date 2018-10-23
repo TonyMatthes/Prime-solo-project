@@ -133,3 +133,6 @@ ALTER TABLE "user_preferences" ADD CONSTRAINT "user_preferences_fk0" FOREIGN KEY
 ALTER TABLE "user_preferences" ADD CONSTRAINT "user_preferences_fk1" FOREIGN KEY ("type") REFERENCES "bathroom_type"("id");
 ALTER TABLE "user_preferences" ADD CONSTRAINT "user_preferences_fk2" FOREIGN KEY ("amenities_id") REFERENCES "Amenities"("id");
 
+ALTER TABLE "public"."bathroom" ADD COLUMN "additional_directions" text;
+
+

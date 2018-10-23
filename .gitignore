@@ -3,3 +3,4 @@ node_modules
 secretREADME.md
 documentation
 package-lock.json
+.env
