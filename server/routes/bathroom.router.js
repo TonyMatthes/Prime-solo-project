@@ -6,6 +6,13 @@ const router = express.Router();
  * GET route template
  */
 router.get('/', (req, res) => {
+    pool.query(`SELECT * FROM "bathroom"`)
+    .then((results)=>{
+        res.send(results.rows)
+    })
+    .catch((error) => {
+        console.log('error getting bathrooms', error)
+    })
     
 });
 
