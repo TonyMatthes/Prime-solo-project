@@ -26,7 +26,7 @@ router.post('/', (req, res) => {
         method: 'GET',
         url: 'https://maps.googleapis.com/maps/api/geocode/json',
         params: {
-            address: req.body.address + ', ' + req.body.city,
+            address: req.body.address,
             key: 'AIzaSyB675LdwmXlgKaIpAvXeOUIjlZU8Zl1TkQ'
         }
     }).then(response => {
@@ -36,11 +36,11 @@ router.post('/', (req, res) => {
             [req.body.address, req.body.city, coords.lat, coords.lng, req.body.type, req.body.additionalDirections])
             .then(() => res.sendStatus(200))
             .catch((error) => {
-                console.log('Error Adding Item: ', error)
+                console.log('Error Adding Bathroom to Database: ', error)
                 res.sendStatus(500);
             });
     }).catch(error => {
-        console.log('Error in google geocoding api:', error)
+        console.log('Error in contacting google geocoding api:', error)
     });
 
 
