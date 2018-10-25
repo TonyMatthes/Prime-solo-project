@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import locationIcon from './location-icon-1024x1024.png'
 import { connect } from 'react-redux';
 import { Map, InfoWindow, Marker, GoogleApiWrapper } from 'google-maps-react';
 
@@ -38,10 +39,11 @@ class BathroomFinder extends Component {
         return (
             <div>
                 <h1>results</h1>
-                <pre>{JSON.stringify(this.props.bathrooms, null, 2)}</pre>
+                <pre>{JSON.stringify(this.props.location, null, 2)}</pre>
                 <Map google={this.props.google} style={style} zoom={14}
                     initialCenter={{ lat: 0, lng: 0 }}
                     centerAroundCurrentLocation={true}>
+                    <Marker icon={locationIcon} position={{lat: this.props.location.latitude, lng: this.props.location.longitude}} />
                     {this.props.bathrooms.map(bathroom => (
                         <Marker key={bathroom.id} onClick={this.onMarkerClick}
                             address={bathroom.address}
@@ -49,7 +51,7 @@ class BathroomFinder extends Component {
                             additionalDirections={bathroom.additional_directions}
                             type={bathroom.type} />
                     ))}
-                    <InfoWindow style={{maxWidth:'80%'}}
+                    <InfoWindow
                         marker={this.state.activeMarker}
                         visible={this.state.showingInfoWindow}>
                         <div>
@@ -64,12 +66,12 @@ class BathroomFinder extends Component {
         )
     }
 }
-const mapStateToProps = ({ bathrooms }) => ({ bathrooms });
+const mapStateToProps = ({ bathrooms, location }) => ({ bathrooms, location });
 
 
 export default GoogleApiWrapper({
     apiKey: ('AIzaSyB675LdwmXlgKaIpAvXeOUIjlZU8Zl1TkQ'),
-    libraries: ['places']
+    // libraries: ['places']
 })(connect(mapStateToProps)(BathroomFinder));
 
 

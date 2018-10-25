@@ -8,4 +8,4 @@
 
 - [X] view for results
 
-- [ ] map view with results mapped to markers
+- [X] map view with results mapped to markers
