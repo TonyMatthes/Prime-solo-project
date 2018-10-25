@@ -1,3 +1,5 @@
+//don't know what call to make here, but eventually will be used for directions
+
 import { put, takeLatest } from 'redux-saga/effects';
 import axios from 'axios'
 function* getDirections(action) {
