@@ -3,7 +3,6 @@ import locationIcon from './location-icon-1024x1024.png'
 import { connect } from 'react-redux';
 import { Map, InfoWindow, Marker, Polyline, GoogleApiWrapper } from 'google-maps-react';
 
-
 class BathroomFinder extends Component {
     state = {
         showingInfoWindow: false,
@@ -17,7 +16,7 @@ class BathroomFinder extends Component {
             activeMarker: marker,
             showingInfoWindow: true
         });
-        
+
 
     onMapClicked = (props) => {
         if (this.state.showingInfoWindow) {
@@ -28,8 +27,15 @@ class BathroomFinder extends Component {
         }
     };
 
-    onDirectionsClick=()=>{
-        this.props.dispatch({type:'GET_DIRECTIONS', payload:{origin:this.props.location, destination:this.state.selectedPlace.position}})
+    onDirectionsClick = () => {
+        this.props.dispatch({
+            type: 'GET_DIRECTIONS',
+            payload:
+                {
+                    origin:this.props.location,
+                    destination:this.state.selectedPlace.position
+                }
+        });
     }
 
     componentDidMount() {
@@ -77,22 +83,21 @@ class BathroomFinder extends Component {
                             <p>notes: {this.state.selectedPlace.additionalDirections}</p>
                         </div>
                     </InfoWindow>
-                    {/* <Polyline
+                    {<Polyline 
                         path={this.props.directions}
                         strokeColor="#0000FF"
                         strokeOpacity={0.8}
-                        strokeWeight={2} /> polyline for eventual directions*/}
+                        strokeWeight={2} />}
                 </Map>
             </div>
         )
     }
 }
-const mapStateToProps = ({ bathrooms, location }) => ({ bathrooms, location });
+const mapStateToProps = ({ bathrooms, location, directions }) => ({ bathrooms, location, directions });
 
 
 export default GoogleApiWrapper({
-    apiKey: ('AIzaSyB675LdwmXlgKaIpAvXeOUIjlZU8Zl1TkQ'),
-    libraries: ['places']
+    apiKey: ('AIzaSyB675LdwmXlgKaIpAvXeOUIjlZU8Zl1TkQ')
 })(connect(mapStateToProps)(BathroomFinder));
 
 

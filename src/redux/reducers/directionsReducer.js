@@ -1,6 +1,6 @@
 //will be used for directions
 
-const directions = (state = {}, action) => {
+const directions = (state = [], action) => {
     switch (action.type) {
       case 'SET_DIRECTIONS':
         return action.payload;
