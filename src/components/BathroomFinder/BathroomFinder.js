@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactDOM from "react-dom";
 import locationIcon from './location-icon-1024x1024.png'
 import { connect } from 'react-redux';
 import { Map, InfoWindow, Marker, Polyline, GoogleApiWrapper } from 'google-maps-react';
@@ -23,10 +24,25 @@ class BathroomFinder extends Component {
             this.setState({
                 showingInfoWindow: false,
                 activeMarker: {},
-                selectedPlace:{}
+                selectedPlace: {}
             })
         }
     };
+
+    onInfoWindowOpen(props, e) {
+        const content = (
+            <div>
+            <p>{this.state.selectedPlace.address}</p>
+            <p>{this.state.selectedPlace.type} bathrooms</p>
+            <p>notes: {this.state.selectedPlace.additionalDirections}</p>
+            <button onClick={this.onDirectionsClick}>Directions</button>
+            </div>
+        );
+        ReactDOM.render(
+            React.Children.only(content),
+            document.getElementById("iwc")
+        );
+    }
 
     onGottaGoClicked = () => {
         this.props.dispatch({
@@ -51,13 +67,10 @@ class BathroomFinder extends Component {
         });
     }
 
-    componentDidMount() {
-        this.props.dispatch({ type: 'GET_LOCATION' });
-    }
     render() {
         const style = {
-            height: '500px',
-            width: '500px'
+            height: '50vh',
+            width: '50vh'
         }
         return (
             <div>
@@ -66,7 +79,7 @@ class BathroomFinder extends Component {
                 <button onClick={this.onDirectionsClick}>Get Directions</button>
                 <button onClick={this.onGottaGoClicked}>GOTTA GO</button>
                 <ol>
-                {this.props.directions.steps.map((step, index) =><li key={index}>{step}</li> )}
+                    {this.props.directions.steps.map((step, index) => <li key={index}>{step}</li>)}
                 </ol>
                 <Map google={this.props.google} style={style} zoom={14}
                     initialCenter={{ lat: 0, lng: 0 }}
@@ -89,12 +102,12 @@ class BathroomFinder extends Component {
                     ))}
                     <InfoWindow
                         marker={this.state.activeMarker}
-                        visible={this.state.showingInfoWindow}>
-                        <div>
-                            <p>{this.state.selectedPlace.address}</p>
-                            <p>{this.state.selectedPlace.type} bathrooms</p>
-                            <p>notes: {this.state.selectedPlace.additionalDirections}</p>
-                        </div>
+                        visible={this.state.showingInfoWindow}
+                        maxWidth='200'
+                        onOpen={e => {
+                            this.onInfoWindowOpen(this.props, e);
+                        }}>
+                        <div id="iwc" />
                     </InfoWindow>
                     {<Polyline
                         path={this.props.directions.polyline}

@@ -23,6 +23,7 @@ import './App.css';
 class App extends Component {
   componentDidMount () {
     this.props.dispatch({type: 'FETCH_USER'})
+    this.props.dispatch({type:'GET_LOCATION'})
   }
 
   render() {
