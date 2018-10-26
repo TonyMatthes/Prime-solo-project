@@ -22,8 +22,7 @@ function* getClosestBathroom(action) {
             longitude:action.payload.longitude,
         }});
         yield put({ type: 'SET_BATHROOMS', payload: response.data });
-        yield put({ type: 'GET_DIRECTIONS', payload: {origin:action.payload,destination:{lat:this.props.bathrooms[0].latitude,lng:this.props.bathrooms[0].longitude}}
-        });
+        yield put({ type: 'CLEAR_DIRECTIONS'});
     } catch (error) {
         console.log('Error getting bathrooms', error);
     }

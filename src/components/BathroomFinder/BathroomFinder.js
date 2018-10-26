@@ -22,7 +22,7 @@ class BathroomFinder extends Component {
         if (this.state.showingInfoWindow) {
             this.setState({
                 showingInfoWindow: false,
-                activeMarker: null
+                activeMarker: {}
             })
         }
     };
@@ -31,6 +31,11 @@ class BathroomFinder extends Component {
         this.props.dispatch({
             type: 'GET_CLOSEST_BATHROOM',
             payload: this.props.location            
+        })
+        this.setState({
+            showingInfoWindow: false,
+            activeMarker: {},
+            selectedPlace: {},
         })
     }
 
@@ -56,10 +61,12 @@ class BathroomFinder extends Component {
         return (
             <div>
                 <h1>results</h1>
+                <pre>{this.props.directions.steps}</pre>
                 <button onClick={this.onDirectionsClick}>Get Directions</button>
                 <button onClick={this.onGottaGoClicked}>GOTTA GO</button>
-
-                <pre>{JSON.stringify(this.props.location, null, 2)}</pre>
+                <ol>
+                {this.props.directions.steps.map(step =><li>{step}</li> )}
+                </ol>
                 <Map google={this.props.google} style={style} zoom={14}
                     initialCenter={{ lat: 0, lng: 0 }}
                     centerAroundCurrentLocation={true}
@@ -90,7 +97,7 @@ class BathroomFinder extends Component {
                         </div>
                     </InfoWindow>
                     {<Polyline
-                        path={this.props.directions}
+                        path={this.props.directions.polyline}
                         strokeColor="#0000FF"
                         strokeOpacity={0.8}
                         strokeWeight={2} />}

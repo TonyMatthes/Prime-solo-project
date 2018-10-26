@@ -1,12 +1,14 @@
 //will be used for directions
 
-const directions = (state = [], action) => {
-    switch (action.type) {
-      case 'SET_DIRECTIONS':
-        return action.payload;
-      default:
-        return state;
-    }
+const directions = (state = {polyline:[],steps:[]}, action) => {
+  switch (action.type) {
+    case 'SET_DIRECTIONS':
+      return action.payload;
+    case 'CLEAR_DIRECTIONS':
+      return {};
+    default:
+      return state;
   }
-  
-  export default directions
+}
+
+export default directions
