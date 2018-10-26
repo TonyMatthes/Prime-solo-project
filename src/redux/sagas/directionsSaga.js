@@ -10,6 +10,14 @@ function strip(html)
    tmp.innerHTML = html;
    return tmp.textContent || tmp.innerText || "";
 }
+//puts spaces in directions
+function unCamelCase (str){
+    return str
+        // insert a space between lower & upper
+        .replace(/([a-z])([A-Z])/g, '$1 $2')
+        // space before last upper in a sequence followed by lower
+        .replace(/\b([A-Z]+)([A-Z])([a-z])/, '$1 $2$3')
+}
 
 //get directions from maps api
 function* getDirections(action) {
@@ -24,7 +32,7 @@ function* getDirections(action) {
                      payload:
                       {
                           polyline: decodePolyLine(response.data.routes[0].overview_polyline.points),
-                          steps: response.data.routes[0].legs[0].steps.map(step=>strip(step.html_instructions))} 
+                          steps: response.data.routes[0].legs[0].steps.map(step=>unCamelCase(strip(step.html_instructions)))} 
                         });
     } catch (error) {
         console.log('Error getting directions', error);

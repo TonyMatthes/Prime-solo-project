@@ -22,7 +22,8 @@ class BathroomFinder extends Component {
         if (this.state.showingInfoWindow) {
             this.setState({
                 showingInfoWindow: false,
-                activeMarker: {}
+                activeMarker: {},
+                selectedPlace:{}
             })
         }
     };
@@ -30,7 +31,7 @@ class BathroomFinder extends Component {
     onGottaGoClicked = () => {
         this.props.dispatch({
             type: 'GET_CLOSEST_BATHROOM',
-            payload: this.props.location            
+            payload: this.props.location
         })
         this.setState({
             showingInfoWindow: false,
@@ -65,14 +66,13 @@ class BathroomFinder extends Component {
                 <button onClick={this.onDirectionsClick}>Get Directions</button>
                 <button onClick={this.onGottaGoClicked}>GOTTA GO</button>
                 <ol>
-                {this.props.directions.steps.map(step =><li>{step}</li> )}
+                {this.props.directions.steps.map((step, index) =><li key={index}>{step}</li> )}
                 </ol>
                 <Map google={this.props.google} style={style} zoom={14}
                     initialCenter={{ lat: 0, lng: 0 }}
                     centerAroundCurrentLocation={true}
                     onClick={this.onMapClicked}>
                     <Marker
-                        onClick={this.onMarkerClick}
                         icon={locationIcon}
                         position={
                             {
