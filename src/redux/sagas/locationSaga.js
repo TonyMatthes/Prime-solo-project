@@ -10,6 +10,7 @@ function* getLocation() {
     try {
         const location = yield call(getUserLocation)
         yield put({type:'SET_LOCATION', payload: location.coords})
+        yield put({type:'GET_BATHROOMS', payload: location.coords})
     } catch (error) {
         console.log('Couldn\'t get location', error)
     }

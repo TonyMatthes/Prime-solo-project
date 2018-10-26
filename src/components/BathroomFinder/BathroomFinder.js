@@ -27,21 +27,26 @@ class BathroomFinder extends Component {
         }
     };
 
+    onGottaGoClicked = () => {
+        this.props.dispatch({
+            type: 'GET_CLOSEST_BATHROOM',
+            payload: this.props.location            
+        })
+    }
+
     onDirectionsClick = () => {
         this.props.dispatch({
             type: 'GET_DIRECTIONS',
             payload:
-                {
-                    origin:this.props.location,
-                    destination:this.state.selectedPlace.position
-                }
+            {
+                origin: this.props.location,
+                destination: this.state.selectedPlace.position
+            }
         });
     }
 
     componentDidMount() {
-        this.props.dispatch({ type: 'GET_BATHROOMS' });
         this.props.dispatch({ type: 'GET_LOCATION' });
-        console.log(this.state)
     }
     render() {
         const style = {
@@ -52,6 +57,7 @@ class BathroomFinder extends Component {
             <div>
                 <h1>results</h1>
                 <button onClick={this.onDirectionsClick}>Get Directions</button>
+                <button onClick={this.onGottaGoClicked}>GOTTA GO</button>
 
                 <pre>{JSON.stringify(this.props.location, null, 2)}</pre>
                 <Map google={this.props.google} style={style} zoom={14}
@@ -83,7 +89,7 @@ class BathroomFinder extends Component {
                             <p>notes: {this.state.selectedPlace.additionalDirections}</p>
                         </div>
                     </InfoWindow>
-                    {<Polyline 
+                    {<Polyline
                         path={this.props.directions}
                         strokeColor="#0000FF"
                         strokeOpacity={0.8}

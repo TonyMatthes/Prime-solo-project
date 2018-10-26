@@ -3,10 +3,27 @@
 
 import { put, /*call,*/ takeLatest } from 'redux-saga/effects';
 import axios from 'axios'
-function* getBathrooms() {
+function* getBathrooms(action) {
     try {
-        const response = yield axios.get('api/bathroom');
+        const response = yield axios.get('api/bathroom', {params:{
+            latitude:action.payload.latitude,
+            longitude:action.payload.longitude,
+        }});
         yield put({ type: 'SET_BATHROOMS', payload: response.data });
+    } catch (error) {
+        console.log('Error getting bathrooms', error);
+    }
+}
+
+function* getClosestBathroom(action) {
+    try {
+        const response = yield axios.get('api/bathroom/closest', {params:{
+            latitude:action.payload.latitude,
+            longitude:action.payload.longitude,
+        }});
+        yield put({ type: 'SET_BATHROOMS', payload: response.data });
+        yield put({ type: 'GET_DIRECTIONS', payload: {origin:action.payload,destination:{lat:this.props.bathrooms[0].latitude,lng:this.props.bathrooms[0].longitude}}
+        });
     } catch (error) {
         console.log('Error getting bathrooms', error);
     }
@@ -39,6 +56,7 @@ function* addBathroom(action) {
 
 function* bathroomSaga() {
     yield takeLatest('GET_BATHROOMS', getBathrooms);
+    yield takeLatest('GET_CLOSEST_BATHROOM', getClosestBathroom);
     yield takeLatest('ADD_BATHROOM', addBathroom);
     // yield takeLatest('GET_LOCATION', getLocation)
 }
