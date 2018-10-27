@@ -65,7 +65,9 @@ class MapComponent extends Component {
                 <Map google={this.props.google} style={style} zoom={14}
                     initialCenter={{ lat: 0, lng: 0 }}
                     centerAroundCurrentLocation={true}
-                    onClick={this.onMapClicked}>
+                    onClick={this.onMapClicked}
+                    mapTypeControl={false}
+                    fullscreenControl={false}>
                     <Marker
                         icon={locationIcon}
                         position={
