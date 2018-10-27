@@ -9,8 +9,9 @@ class BathroomFinder extends Component {
 
     render() {
         return (
-            <Grid container>
-                <Grid item style={{width: '50vh', height:'50vh', float: 'left' }}>
+            <Grid container direction="row" alignItems="center">
+            {/* container for the map element must have the same width and height as the map component */}
+                <Grid item style={{float: 'left', height:'50vh', width:'50vh' }}>
                     <MapComponent />
                 </Grid>
                 <Grid item>
