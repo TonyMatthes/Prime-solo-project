@@ -58,11 +58,12 @@ class MapComponent extends Component {
     render() {
         const style = {
             height: '50vh',
-            width: '50vh',
+            width: '100vw',
         }
         return (
                 <Map google={this.props.google} style={style} zoom={14}
                     initialCenter={{ lat: 0, lng: 0 }}
+                    containerStyle={{style}}
                     centerAroundCurrentLocation={true}
                     onClick={this.onMapClicked}
                     mapTypeControl={false}
