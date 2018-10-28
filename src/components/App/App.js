@@ -17,6 +17,7 @@ import AboutPage from '../AboutPage/AboutPage';
 import UserPage from '../UserPage/UserPage';
 import InfoPage from '../InfoPage/InfoPage';
 import BathroomFinder from '../BathroomFinder/BathroomFinder'
+import SideDrawer from '../SideDrawer/SideDrawer'
 
 import './App.css';
 
@@ -30,6 +31,7 @@ class App extends Component {
     return (
       <Router>
         <div>
+          <SideDrawer/>
           <Nav />
           <Switch>
             {/* Visiting localhost:3000 will redirect to localhost:3000/home */}
