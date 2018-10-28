@@ -32,10 +32,10 @@ class MapComponent extends Component {
     onInfoWindowOpen(props, e) {
         const content = (
             <div>
-            <p>{this.state.selectedPlace.address}</p>
-            <p>{this.state.selectedPlace.type} bathrooms</p>
-            <p>notes: {this.state.selectedPlace.additionalDirections}</p>
-            <button onClick={this.onDirectionsClick}>Directions</button>
+                <p>{this.state.selectedPlace.address}</p>
+                <p>{this.state.selectedPlace.type} bathrooms</p>
+                <p>notes: {this.state.selectedPlace.additionalDirections}</p>
+                <button onClick={this.onDirectionsClick}>Directions</button>
             </div>
         );
         ReactDOM.render(
@@ -61,9 +61,10 @@ class MapComponent extends Component {
             width: '100vw',
         }
         return (
+            <div style={style}>
                 <Map google={this.props.google} style={style} zoom={14}
                     initialCenter={{ lat: 0, lng: 0 }}
-                    containerStyle={{style}}
+                    containerStyle={{ style }}
                     centerAroundCurrentLocation={true}
                     onClick={this.onMapClicked}
                     mapTypeControl={false}
@@ -98,6 +99,7 @@ class MapComponent extends Component {
                         strokeOpacity={0.8}
                         strokeWeight={2} />}
                 </Map>
+            </div>
         )
     }
 }

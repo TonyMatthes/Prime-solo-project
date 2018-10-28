@@ -9,12 +9,12 @@ class BathroomFinder extends Component {
 
     render() {
         return (
-            <Grid container direction="row" alignItems="center">
+            <Grid container direction="column" alignItems="center">
             {/* container for the map element must have the same width and height as the map component */}
-                <div style={{float: 'left', height:'50vh', width:'50vh' }}>
+                <div item style={{ height:'50vh', width:'100vw' }}>
                     <MapComponent />
                 </div>
-                <div>
+                <div item>
                     <ol>
                         {this.props.directions.steps.map((step, index) => <li key={index}>{step}</li>)}
                     </ol>
