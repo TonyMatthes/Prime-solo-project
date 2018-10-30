@@ -7,9 +7,7 @@ import {
 } from 'react-router-dom';
 
 import {connect} from 'react-redux';
-
-import Footer from '../Footer/Footer';
-
+import {GoogleApiWrapper} from 'google-maps-react'
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute'
 
 import AboutPage from '../AboutPage/AboutPage';
@@ -17,8 +15,7 @@ import UserPage from '../UserPage/UserPage';
 import InfoPage from '../InfoPage/InfoPage';
 import BathroomFinder from '../BathroomFinder/BathroomFinder'
 import SideDrawer from '../SideDrawer/SideDrawer'
-
-import './App.css';
+import AddBathroom from '../AddBathroom/AddBathroom';
 
 class App extends Component {
   componentDidMount () {
@@ -27,6 +24,7 @@ class App extends Component {
   }
 
   render() {
+    
     return (
       <Router>
         <div>
@@ -62,13 +60,21 @@ class App extends Component {
               path="/info"
               component={InfoPage}
             />
+            <ProtectedRoute
+              exact
+              path="/addbathroom"
+              component={AddBathroom}
+            />
             {/* If none of the other routes matched, we will show a 404. */}
             <Route render={() => <h1>404</h1>} />
           </Switch>
-          <Footer />
         </div>
       </Router>
   )}
 }
 
-export default connect()(App);
+export default GoogleApiWrapper({
+  apiKey: ('AIzaSyB675LdwmXlgKaIpAvXeOUIjlZU8Zl1TkQ'),
+  libraries: ['places']
+
+})(connect()(App));

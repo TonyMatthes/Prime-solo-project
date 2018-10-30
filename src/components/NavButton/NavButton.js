@@ -6,6 +6,7 @@ class NavButton extends Component {
 
     handleClick = () => {
         this.props.history.push(this.props.path)
+        this.props.close()
     }
 
     render() {

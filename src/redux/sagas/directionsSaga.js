@@ -6,7 +6,7 @@ import axios from 'axios'
 //strips html from google maps directions
 function strip(html)
 {
-   var tmp = document.createElement("DIV");
+   const tmp = document.createElement("DIV");
    tmp.innerHTML = html;
    return tmp.textContent || tmp.innerText || "";
 }

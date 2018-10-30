@@ -35,36 +35,35 @@ class SwipeableTemporaryDrawer extends React.Component {
                             aria-label="Open drawer">
                             <MenuIcon />
                         </IconButton>
-                        <Typography variant="h3">
+                        <Typography variant="h6">
                             Crappr
                             </Typography>
                     </Toolbar>
                 </AppBar>
-                <SwipeableDrawer width="100%"
+                <SwipeableDrawer
                     open={this.state.left}
                     onClose={this.toggleDrawer('left', false)}
                     onOpen={this.toggleDrawer('left', true)}
                 >
                     <img src={Crapper} alt="Thomas Crapper" style={{ width: 240 }} />
+                    <NavButton close={this.toggleDrawer('left', false)} name="Bathroom Finder" path="/bathroomfinder" />
                     
-                    <NavButton name="Bathroom Finder" path="/bathroomfinder" />
-                    
-                    <NavButton path="/home" name="home" />
+                    <NavButton close={this.toggleDrawer('left', false)} path="/home" name={this.props.user.id ? 'Home' : 'Login / Register'} />
                     {/* Show this link if they are logged in or not,
                     but call this link 'Home' if they are logged in,
                     and call this link 'Login / Register' if they are not */}
 
                     {/* Show the link to the info page and the logout button if the user is logged in */}
 
-                    <NavButton path="/info" name="Info Page" />
+                    <NavButton close={this.toggleDrawer('left', false)} path="/info" name="Info Page" />
 
                     {/* Always show this link since the about page is not protected */}
-                    <NavButton path="/about" name="About" />
+                    <NavButton close={this.toggleDrawer('left', false)} path="/about" name="About" />
                 </SwipeableDrawer>
             </div>
         );
     }
 }
 
-
-export default connect()(SwipeableTemporaryDrawer);
+const mapReduxStateToProps= ({user}) => ({user})
+export default connect(mapReduxStateToProps)(SwipeableTemporaryDrawer);

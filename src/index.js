@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import createSagaMiddleware from 'redux-saga';
 import logger from 'redux-logger';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import CssBaseline from '@material-ui/core/CssBaseline'
 
 
 
@@ -50,7 +51,7 @@ sagaMiddleware.run(rootSaga);
 
 ReactDOM.render(
   <Provider store={store}>
-    <MuiThemeProvider theme={theme}><App /></MuiThemeProvider>
+    <MuiThemeProvider theme={theme}><CssBaseline><App /></CssBaseline></MuiThemeProvider>
   </Provider>,
   document.getElementById('react-root'),
 );
