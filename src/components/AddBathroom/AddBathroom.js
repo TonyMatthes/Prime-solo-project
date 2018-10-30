@@ -1,98 +1,87 @@
+/* global google */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import TextField from '@material-ui/core/TextField';
-import FormControl from '@material-ui/core/FormControl'
-import FormLabel from '@material-ui/core/FormLabel';
-import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
+import { GoogleApiWrapper } from 'google-maps-react';
 
-
-
-class CustomerInfo extends Component {
+class Contents extends Component {
     state = {
-        bathroomToAdd: {
-            name: '',
-            address: '',
-            latitude: '',
-            longitude: '',
-            additionalDirections: ''
-        }
+        position: null,
+        address: {},
+        name: '',
+        type: '',
+        additionalDirections: '',
+    };
+
+    componentDidMount() {
+        this.renderAutoComplete();
+    }
+
+    onSubmit = (event)=> {
+        event.preventDefault();
+        this.props.dispatch({ type: 'ADD_BATHROOM', payload: this.state });
     }
 
     handleChange = (input) => event => {
         this.setState({
-            bathroomToAdd: {
-                ...this.state.bathroomToAdd,
-                [input]: event.target.value,
-            }
+            ...this.state,
+            [input]: event.target.value,
         })
     }
 
+    renderAutoComplete() {
 
-    addSubmit = (event) => {
-        event.preventDefault();
-        this.props.dispatch({ type: 'POST_BATHROOM', payload: this.state.bathroomToAdd });
-        this.setState({
-            bathroomToAdd: {
-                name: '',
-                address: '',
-                latitude: '',
-                longitude: '',
-                additionalDirections:''
-            },
-        })
+        const autocomplete = new google.maps.places.Autocomplete(this.autocomplete);
+
+        autocomplete.addListener('place_changed', () => {
+            const place = autocomplete.getPlace();
+            this.setState({
+                position: place.geometry.location,
+                address: place.formatted_address,
+                name: place.name
+            });
+        });
     }
+
     render() {
-        return (
-            <Grid
-                container
-                direction="column"
-                justify="center"
-                alignItems="center"
-                spacing={40}
-            >
-                <form onSubmit={this.addSubmit}>
-                    <Grid item>
-                        <FormControl component="fieldset">
-                            <FormLabel component="legend">Order info:</FormLabel>
+        const { position } = this.state;
 
-                            <TextField
-                                label="Name"
-                                value={this.state.bathroomToAdd.name}
-                                onChange={this.handleChange('name')}
-                            />
-                            <TextField
-                                label="Street Address"
-                                value={this.state.bathroomToAdd.address}
-                                onChange={this.handleChange('address')}
-                            />
-                            <TextField
-                                label="latitude"
-                                value={this.state.bathroomToAdd.latitude}
-                                onChange={this.handleChange('latitude')}
-                            />
-                            <TextField
-                                label="longitude"
-                                type="number"
-                                maxLength="5"
-                                value={this.state.bathroomToAdd.longitude}
-                                onChange={this.handleChange('longitude')}
-                            />
-                            <TextField
-                                label="Additional Directions"                             
-                                value={this.state.bathroomToAdd.additionalDirections}
-                                onChange={this.handleChange('additionalDirections')}
-                            />
-                        </FormControl>
-                    </Grid>
-                    <Grid item>
-                        <Button type="submit">Submit</Button>
-                    </Grid>
-                </form>
-            </Grid>
-        )
+        return (
+            <div >
+                <pre>{JSON.stringify(this.state)}</pre>
+                <div>
+                    <form onSubmit={this.onSubmit}>
+                        <input style={{ width: 400 }}
+                            placeholder="Enter a location"
+                            ref={ref => (this.autocomplete = ref)}
+                            type="text"
+                        />
+                        <input
+                            placeholder='type of bathrooms present'
+                            onChange={this.handleChange('type')}
+                        />
+                        <input
+                            placeholder='Any additional directions?'
+                            onChange={this.handleChange('additionalDirections')}
+                        />
+
+                        <input type="submit" value="Go" />
+                    </form>
+
+                    <div>
+                        <div>Lat: {position && position.lat()}</div>
+                        <div>Lng: {position && position.lng()}</div>
+                        <div>Lng: {position && this.state.name}</div>
+                        <div>Lng: {position && this.state.address}</div>
+                        <div>Lng: {position && JSON.stringify(position)}</div>
+                    </div>
+
+                </div>
+            </div>
+        );
     }
 }
-const mapReduxStateToProps = props => props;
 
-export default connect(mapReduxStateToProps)(CustomerInfo);
+export default GoogleApiWrapper({
+    apiKey: ('AIzaSyB675LdwmXlgKaIpAvXeOUIjlZU8Zl1TkQ'),
+    libraries: ['places']
+})(connect()(Contents));

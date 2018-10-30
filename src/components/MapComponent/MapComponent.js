@@ -32,6 +32,7 @@ class MapComponent extends Component {
     onInfoWindowOpen(props, e) {
         const content = (
             <div>
+                <p>{this.state.selectedPlace.name}</p>
                 <p>{this.state.selectedPlace.address}</p>
                 <p>{this.state.selectedPlace.type} bathrooms</p>
                 <p>notes: {this.state.selectedPlace.additionalDirections}</p>
@@ -80,6 +81,7 @@ class MapComponent extends Component {
                         } />
                     {this.props.bathrooms.map(bathroom => (
                         <Marker key={bathroom.id} onClick={this.onMarkerClick}
+                            name={bathroom.place_name}
                             address={bathroom.address}
                             position={{ lat: bathroom.latitude, lng: bathroom.longitude, }}
                             additionalDirections={bathroom.additional_directions}
