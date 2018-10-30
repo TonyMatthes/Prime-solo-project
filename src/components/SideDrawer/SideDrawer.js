@@ -53,9 +53,12 @@ class SwipeableTemporaryDrawer extends React.Component {
                     but call this link 'Home' if they are logged in,
                     and call this link 'Login / Register' if they are not */}
 
-                    {/* Show the link to the info page and the logout button if the user is logged in */}
-
+                    {this.props.user.id &&(
+                        <>
                     <NavButton close={this.toggleDrawer('left', false)} path="/info" name="Info Page" />
+                    <NavButton close={this.toggleDrawer('left', false)} path="/addbathroom" name="Add Bathroom" />
+                    </>
+                    )}
 
                     {/* Always show this link since the about page is not protected */}
                     <NavButton close={this.toggleDrawer('left', false)} path="/about" name="About" />

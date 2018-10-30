@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { GoogleApiWrapper } from 'google-maps-react';
+import { Button} from '@material-ui/core'
 
 class Contents extends Component {
     state = {
@@ -43,11 +44,8 @@ class Contents extends Component {
     }
 
     render() {
-        const { position } = this.state;
-
         return (
             <div >
-                <pre>{JSON.stringify(this.state)}</pre>
                 <div>
                     <form onSubmit={this.onSubmit}>
                         <input style={{ width: 400 }}
@@ -64,16 +62,8 @@ class Contents extends Component {
                             onChange={this.handleChange('additionalDirections')}
                         />
 
-                        <input type="submit" value="Go" />
+                        <Button type="submit" >Submit</Button>
                     </form>
-
-                    <div>
-                        <div>Lat: {position && position.lat()}</div>
-                        <div>Lng: {position && position.lng()}</div>
-                        <div>Lng: {position && this.state.name}</div>
-                        <div>Lng: {position && this.state.address}</div>
-                        <div>Lng: {position && JSON.stringify(position)}</div>
-                    </div>
 
                 </div>
             </div>

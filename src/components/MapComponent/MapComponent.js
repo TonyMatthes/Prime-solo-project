@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from "react-dom";
 import locationIcon from './location-icon-1024x1024.png'
+import {Typography, Button} from '@material-ui/core'
 import { connect } from 'react-redux';
 import { Map, InfoWindow, Marker, Polyline, GoogleApiWrapper } from 'google-maps-react';
 
@@ -32,11 +33,13 @@ class MapComponent extends Component {
     onInfoWindowOpen(props, e) {
         const content = (
             <div>
-                <p>{this.state.selectedPlace.name}</p>
-                <p>{this.state.selectedPlace.address}</p>
-                <p>{this.state.selectedPlace.type} bathrooms</p>
-                <p>notes: {this.state.selectedPlace.additionalDirections}</p>
-                <button onClick={this.onDirectionsClick}>Directions</button>
+                <Typography variant="h6">{this.state.selectedPlace.name}</Typography>
+                
+                <Typography variant="body1">{this.state.selectedPlace.address}</Typography>
+                <Typography variant="body1">{this.state.selectedPlace.type} bathrooms</Typography>
+                <Typography variant="body1">notes: {this.state.selectedPlace.additionalDirections}</Typography>
+                
+                <Button onClick={this.onDirectionsClick}>Directions</Button>
             </div>
         );
         ReactDOM.render(

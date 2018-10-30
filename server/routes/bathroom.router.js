@@ -7,7 +7,6 @@ const axios = require('axios')
  * GET ALL bathrooms
  */
 router.get('/', (req, res) => {
-    console.log(req.query)
     pool.query(`SELECT * FROM "bathroom"`)
         .then((results) => {
             res.send(results.rows)

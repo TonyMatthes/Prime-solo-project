@@ -6,6 +6,9 @@ import Typography from '@material-ui/core/Typography'
 
 class BathroomFinder extends Component {
 
+    componentDidMount(){
+        this.props.dispatch({type:'GET_BATHROOMS'})
+    }
 
     render() {
         return (
