@@ -32,11 +32,20 @@ function* addBathroom(action) {
         console.log('Error adding bathroom', error);
     }
 }
+function* deleteBathroom(action) {
+    try {
+        yield axios.delete(`api/bathroom/${action.payload}`);
+        yield put({ type: 'GET_ALL_BATHROOMS' });
+    } catch (error) {
+        console.log('Error deleting bathroom', error);
+    }
+}
 
 function* bathroomSaga() {
     yield takeLatest('GET_ALL_BATHROOMS', getAllBathrooms);
     yield takeLatest('GET_CLOSEST_BATHROOM', getClosestBathroom);
     yield takeLatest('ADD_BATHROOM', addBathroom);
+    yield takeLatest('DELETE_BATHROOM', deleteBathroom);
 }
 
 export default bathroomSaga;

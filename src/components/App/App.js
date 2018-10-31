@@ -16,6 +16,7 @@ import InfoPage from '../InfoPage/InfoPage';
 import BathroomFinder from '../BathroomFinder/BathroomFinder'
 import SideDrawer from '../SideDrawer/SideDrawer'
 import AddBathroom from '../AddBathroom/AddBathroom';
+import Admin from '../Admin/Admin'
 
 class App extends Component {
   state = {
@@ -80,6 +81,11 @@ class App extends Component {
                 exact
                 path="/addbathroom"
                 component={AddBathroom}
+              />
+              <ProtectedRoute
+                exact
+                path="/admin"
+                component={Admin}
               />
               {/* If none of the other routes matched, we will show a 404. */}
               <Route render={() => <h1>404</h1>} />

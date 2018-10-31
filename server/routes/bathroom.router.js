@@ -1,5 +1,6 @@
 const express = require('express');
 const pool = require('../modules/pool');
+const { rejectUnauthenticated } = require('../modules/authentication-middleware');
 const router = express.Router();
 const axios = require('axios')
 
@@ -46,7 +47,7 @@ router.get('/closest', (req, res) => {
  * POST route template
  */
 router.post('/', (req, res) => {
-    console.log(req.body)
+    console.log('in POST, posting:')
     pool.query(`INSERT INTO "bathroom" ("address", "latitude", "longitude", "type", "additional_directions","place_name")
                 VALUES ($1, $2, $3, $4, $5, $6)`,
         [req.body.address, req.body.position.lat, req.body.position.lng, req.body.type, req.body.additionalDirections, req.body.name])
@@ -56,6 +57,25 @@ router.post('/', (req, res) => {
             res.sendStatus(500);
         });
 });
+
+router.delete('/:id', rejectUnauthenticated, (req, res) => {
+    console.log('in DELETE, deleting:', req.params)
+    pool.query('DELETE FROM "bathroom" WHERE id=$1', [req.params.id])
+        .then(() => { res.sendStatus(200); })
+        .catch((err) => {
+            console.log('Error in DELETE', err);
+            res.sendStatus(500);
+        });
+});
+// router.put('/:id', (req, res) => {
+//     console.log(req.params)
+//      pool.query('DELETE FROM "bathroom" WHERE id=$1', [req.params.id])
+//         .then(() => { res.sendStatus(200); })
+//         .catch((err) => {
+//             console.log('Error in DELETE', err);
+//             res.sendStatus(500);
+//         });
+// });
 
 
 
