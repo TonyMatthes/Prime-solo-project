@@ -69,12 +69,12 @@ class MapComponent extends Component {
         for (let i = 0; i < this.props.bathrooms.length; i++) {
             bounds.extend({ lat: this.props.bathrooms[i].latitude, lng: this.props.bathrooms[i].longitude });
         }
+        bounds.extend({lat:this.props.location.latitude,lng:this.props.location.longitude})
         return (
 
             <div style={mapStyle}>
                 <Map google={this.props.google} style={ mapStyle } zoom={14}
-                    initialCenter={{ lat: 0, lng: 0 }}
-                    centerAroundCurrentLocation={true}
+                    initialCenter={{ lat: this.props.location.latitude, lng: this.props.location.longitude }}
                     containerStyle={ mapStyle }
                     onClick={this.onMapClicked}
                     mapTypeControl={false}

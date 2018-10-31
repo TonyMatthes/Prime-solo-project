@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux'
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import MenuIcon from '@material-ui/icons/Menu';
+import UserIcon from '@material-ui/icons/VerifiedUser';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -13,10 +14,7 @@ import GottaGoButton from '../GottaGoButton/GottaGoButton'
 class SwipeableTemporaryDrawer extends React.Component {
     state = {
         left: false,
-        imageToAdd: {
-            path: '',
-            description: '',
-        }
+        right:false,
     };
 
     toggleDrawer = (side, open) => () => {
@@ -40,6 +38,11 @@ class SwipeableTemporaryDrawer extends React.Component {
                         <Typography variant="h6">
                             Crappr
                             </Typography>
+                            <IconButton
+                            onClick={this.toggleDrawer('right', true)}
+                            aria-label="Open drawer">
+                            <UserIcon />
+                        </IconButton>
                     </Toolbar>
                 </AppBar>
                 <SwipeableDrawer
@@ -65,6 +68,14 @@ class SwipeableTemporaryDrawer extends React.Component {
                     {/* Always show this link since the about page is not protected */}
                     <NavButton close={this.toggleDrawer('left', false)} path="/about" name="About" />
                     <GottaGoButton close ={this.toggleDrawer('left', false)} />
+                </SwipeableDrawer>
+                <SwipeableDrawer
+                    open={this.state.right}
+                    anchor="right"
+                    onClose={this.toggleDrawer('right', false)}
+                    onOpen={this.toggleDrawer('right', true)}
+                >
+                <p>this will be the user drawer</p>
                 </SwipeableDrawer>
             </div>
         );
