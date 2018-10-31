@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from "react-dom";
 import locationIcon from './location-icon-1024x1024.png'
-import {Typography, Button} from '@material-ui/core'
+import { Typography, Button } from '@material-ui/core'
 import { connect } from 'react-redux';
 import { Map, InfoWindow, Marker, Polyline, GoogleApiWrapper } from 'google-maps-react';
 
@@ -29,16 +29,16 @@ class MapComponent extends Component {
             })
         }
     };
-
+    //Below is a workaround to get around react-google-maps not dealing well with callback functions in an info window
     onInfoWindowOpen(props, e) {
         const content = (
             <div>
                 <Typography variant="h6">{this.state.selectedPlace.name}</Typography>
-                
+
                 <Typography variant="body1">{this.state.selectedPlace.address}</Typography>
                 <Typography variant="body1">{this.state.selectedPlace.type} bathrooms</Typography>
                 <Typography variant="body1">notes: {this.state.selectedPlace.additionalDirections}</Typography>
-                
+
                 <Button onClick={this.onDirectionsClick}>Directions</Button>
             </div>
         );
@@ -60,20 +60,26 @@ class MapComponent extends Component {
     }
 
     render() {
-        const style = {
+        const mapStyle = {
             height: '50vh',
             width: '100%',
             position: 'relative'
         }
+        const bounds = new this.props.google.maps.LatLngBounds();
+        for (let i = 0; i < this.props.bathrooms.length; i++) {
+            bounds.extend({ lat: this.props.bathrooms[i].latitude, lng: this.props.bathrooms[i].longitude });
+        }
         return (
-            <div style={style}>
-                <Map google={this.props.google} style={style} zoom={14}
+
+            <div style={mapStyle}>
+                <Map google={this.props.google} style={ mapStyle } zoom={14}
                     initialCenter={{ lat: 0, lng: 0 }}
                     centerAroundCurrentLocation={true}
-                    containerStyle={{style}}
+                    containerStyle={ mapStyle }
                     onClick={this.onMapClicked}
                     mapTypeControl={false}
-                    fullscreenControl={false}>
+                    fullscreenControl={false}
+                    bounds={bounds}>
                     <Marker
                         icon={locationIcon}
                         position={
