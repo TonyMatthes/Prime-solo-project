@@ -5,7 +5,9 @@ import {Typography, Grid} from '@material-ui/core/'
 
 
 class BathroomFinder extends Component {
-
+componentWillUnmount(){
+    this.props.dispatch({type:'CLEAR_GOTTA_GO'})
+}
     render() {
         return (
             <Grid container direction="column">
