@@ -47,7 +47,7 @@ router.get('/closest', (req, res) => {
  * POST route template
  */
 router.post('/', (req, res) => {
-    console.log('in POST, posting:')
+    console.log('in POST, posting: ', req.body)
     pool.query(`INSERT INTO "bathroom" ("address", "latitude", "longitude", "type", "additional_directions","place_name")
                 VALUES ($1, $2, $3, $4, $5, $6)`,
         [req.body.address, req.body.position.lat, req.body.position.lng, req.body.type, req.body.additionalDirections, req.body.name])

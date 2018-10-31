@@ -27,7 +27,8 @@ function* getClosestBathroom(action) {
 function* addBathroom(action) {
     try {
         yield axios.post('api/bathroom', action.payload);
-        yield put({ type: 'GET_CLOSEST_BATHROOM' });
+
+        yield put({ type: 'GET_LOCATION' });
     } catch (error) {
         console.log('Error adding bathroom', error);
     }
