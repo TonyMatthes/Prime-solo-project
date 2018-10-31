@@ -65,11 +65,12 @@ class MapComponent extends Component {
             width: '100%',
             position: 'relative'
         }
-        const bounds = new this.props.google.maps.LatLngBounds();
-        for (let i = 0; i < this.props.bathrooms.length; i++) {
-            bounds.extend({ lat: this.props.bathrooms[i].latitude, lng: this.props.bathrooms[i].longitude });
-        }
-        bounds.extend({lat:this.props.location.latitude,lng:this.props.location.longitude})
+        //bounds are too annoying for now
+        // const bounds = new this.props.google.maps.LatLngBounds();
+        // for (let i = 0; i < this.props.bathrooms.length; i++) {
+        //     bounds.extend({ lat: this.props.bathrooms[i].latitude, lng: this.props.bathrooms[i].longitude });
+        // }
+        // bounds.extend({lat:this.props.location.latitude,lng:this.props.location.longitude})
         return (
 
             <div style={mapStyle}>
@@ -79,7 +80,8 @@ class MapComponent extends Component {
                     onClick={this.onMapClicked}
                     mapTypeControl={false}
                     fullscreenControl={false}
-                    bounds={bounds}>
+                    // bounds={bounds}
+                    >
                     <Marker
                         icon={locationIcon}
                         position={
