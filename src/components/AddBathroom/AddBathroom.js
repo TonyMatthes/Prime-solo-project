@@ -2,11 +2,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { GoogleApiWrapper } from 'google-maps-react';
-import { Button} from '@material-ui/core'
+import { FormControl, TextField, Button } from '@material-ui/core'
 
-class Contents extends Component {
+class AddBathroom extends Component {
     state = {
-        position: null,
+        position: {},
         address: {},
         name: '',
         type: '',
@@ -17,9 +17,17 @@ class Contents extends Component {
         this.renderAutoComplete();
     }
 
-    onSubmit = (event)=> {
+    onSubmit = (event) => {
         event.preventDefault();
-        this.props.dispatch({ type: 'ADD_BATHROOM', payload: this.state });
+        this.props.dispatch({ type: 'ADD_BATHROOM', payload: this.state })
+        this.setState({
+            position: {},
+            address: {},
+            name: '',
+            type: '',
+            additionalDirections: '',
+        })
+        event.target.reset()
     }
 
     handleChange = (input) => event => {
@@ -48,21 +56,25 @@ class Contents extends Component {
             <div >
                 <div>
                     <form onSubmit={this.onSubmit}>
-                        <input style={{ width: 400 }}
+                        <FormControl>
+                        <TextField style={{ width: 400 }}
                             placeholder="Enter a location"
-                            ref={ref => (this.autocomplete = ref)}
+                            inputRef={ref => (this.autocomplete = ref)}
                             type="text"
                         />
-                        <input
+                        <TextField
                             placeholder='type of bathrooms present'
                             onChange={this.handleChange('type')}
+                            value={this.state.type}
                         />
-                        <input
+                        <TextField
                             placeholder='Any additional directions?'
                             onChange={this.handleChange('additionalDirections')}
+                            value={this.state.additionalDirections}
                         />
 
                         <Button type="submit" >Submit</Button>
+                        </FormControl>
                     </form>
 
                 </div>
@@ -74,4 +86,4 @@ class Contents extends Component {
 export default GoogleApiWrapper({
     apiKey: ('AIzaSyB675LdwmXlgKaIpAvXeOUIjlZU8Zl1TkQ'),
     libraries: ['places']
-})(connect()(Contents));
+})(connect()(AddBathroom));

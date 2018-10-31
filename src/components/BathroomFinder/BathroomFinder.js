@@ -6,9 +6,6 @@ import Typography from '@material-ui/core/Typography'
 
 class BathroomFinder extends Component {
 
-    componentDidMount(){
-        this.props.dispatch({type:'GET_BATHROOMS'})
-    }
 
     render() {
         return (
@@ -18,7 +15,7 @@ class BathroomFinder extends Component {
                 </div>
                 <div>
                     <ol>
-                       {this.props.directions.steps.map((step, index) =><Typography variant="body1"> <li key={index}> {step}</li></Typography>)}
+                       {this.props.directions.steps.map((step, index) =><Typography key={index} variant="body1"> <li > {step}</li></Typography>)}
                     </ol>
                 </div>
             </div>

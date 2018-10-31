@@ -24,7 +24,7 @@ router.get('/', (req, res) => {
  */
 router.get('/closest', (req, res) => {
     pool.query(`SELECT * FROM
-    (SELECT "id", "address","type","additional_directions",
+    (SELECT "id", "address","type","additional_directions","place_name",
     (3959 * acos(cos(radians($1)) * cos(radians("latitude")) *
     cos(radians("longitude") - radians($2)) +
     sin(radians($1)) * sin(radians("latitude"))))
@@ -33,7 +33,7 @@ router.get('/closest', (req, res) => {
     WHERE distance < 5
     ORDER BY distance
     OFFSET 0
-    LIMIT 1;`, [req.query.latitude, req.query.longitude])
+    LIMIT $3;`, [req.query.latitude, req.query.longitude, req.query.limit])
         .then((results) => {
             res.send(results.rows)
         })
@@ -56,28 +56,6 @@ router.post('/', (req, res) => {
             res.sendStatus(500);
         });
 });
-// router.post('/', (req, res) => {
-//     console.log(req.body)
-//     axios({
-//         method: 'GET',
-//         url: 'https://maps.googleapis.com/maps/api/geocode/json',
-//         params: {
-//             address: req.body.address,
-//             key: 'AIzaSyB675LdwmXlgKaIpAvXeOUIjlZU8Zl1TkQ'
-//         }
-//     }).then(response => {
-//         let coords = response.data.results[0].geometry.location
-//         pool.query(`INSERT INTO "bathroom" ("address", "city", "latitude", "longitude", "type", "additional_directions")
-//                 VALUES ($1, $2, $3, $4, $5, $6)`,
-//             [req.body.address, req.body.city, coords.lat, coords.lng, req.body.type, req.body.additionalDirections])
-//             .then(() => res.sendStatus(200))
-//             .catch((error) => {
-//                 console.log('Error Adding Bathroom to Database: ', error)
-//                 res.sendStatus(500);
-//             });
-//     }).catch(error => {
-//         console.log('Error in contacting google geocoding api:', error)
-//     });
 
 
 

@@ -6,10 +6,15 @@ const getUserLocation = () => new Promise((resolve, reject) => {
      error => reject(error),
     )
    })
-function* getLocation() {
+function* getLocation(action) {
     try {
         const location = yield call(getUserLocation)
         yield put({type:'SET_LOCATION', payload: location.coords})
+        yield put({type:'GET_CLOSEST_BATHROOM', payload:{
+            latitude: location.coords.latitude,
+            longitude: location.coords.longitude,
+            limit:action.payload
+        }})
     } catch (error) {
         console.log('Couldn\'t get location', error)
     }
