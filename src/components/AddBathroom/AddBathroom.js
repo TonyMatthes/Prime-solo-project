@@ -3,14 +3,24 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { GoogleApiWrapper } from 'google-maps-react';
 import { FormControl, TextField, Button } from '@material-ui/core'
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 class AddBathroom extends Component {
     state = {
+        open: false,
         position: {},
         address: {},
         name: '',
         type: '',
         additionalDirections: '',
+    };
+
+    handleClose = () => {
+        this.setState({ open: false, });
     };
 
     componentDidMount() {
@@ -22,6 +32,7 @@ class AddBathroom extends Component {
         this.props.dispatch({ type: 'ADD_BATHROOM', payload: this.state })
         //reset the state
         this.setState({
+            open: true,
             position: {},
             address: {},
             name: '',
@@ -56,9 +67,9 @@ class AddBathroom extends Component {
     render() {
         return (
             <div >
-                <div>
-                    <form onSubmit={this.onSubmit}>
-                        <FormControl>
+
+                <form onSubmit={this.onSubmit}>
+                    <FormControl>
                         <TextField style={{ width: 400 }}
                             placeholder="Enter a location"
                             inputRef={ref => (this.autocomplete = ref)}
@@ -76,10 +87,27 @@ class AddBathroom extends Component {
                         />
 
                         <Button type="submit" >Submit</Button>
-                        </FormControl>
-                    </form>
+                    </FormControl>
+                </form>
+                <Dialog
+                    open={this.state.open}
+                    onClose={this.handleClose}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                    <DialogTitle id="alert-dialog-title">{"Submitted!"}</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                            Bathroom Added
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={this.handleClose} color="primary" autoFocus>
+                            okay
+                </Button>
+                    </DialogActions>
+                </Dialog>
 
-                </div>
             </div>
         );
     }
