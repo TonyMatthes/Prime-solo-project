@@ -20,6 +20,7 @@ class AddBathroom extends Component {
     onSubmit = (event) => {
         event.preventDefault();
         this.props.dispatch({ type: 'ADD_BATHROOM', payload: this.state })
+        //reset the state
         this.setState({
             position: {},
             address: {},
@@ -27,6 +28,7 @@ class AddBathroom extends Component {
             type: '',
             additionalDirections: '',
         })
+        //reset uncontrolled autocomplete
         event.target.reset()
     }
 

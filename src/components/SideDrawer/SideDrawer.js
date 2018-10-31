@@ -8,6 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import NavButton from '../NavButton/NavButton'
 import Crapper from './thomas_crapper.jpg'
+import GottaGoButton from '../GottaGoButton/GottaGoButton'
 
 class SwipeableTemporaryDrawer extends React.Component {
     state = {
@@ -23,6 +24,7 @@ class SwipeableTemporaryDrawer extends React.Component {
             [side]: open,
         });
     };
+    
 
     render() {
 
@@ -62,6 +64,7 @@ class SwipeableTemporaryDrawer extends React.Component {
 
                     {/* Always show this link since the about page is not protected */}
                     <NavButton close={this.toggleDrawer('left', false)} path="/about" name="About" />
+                    <GottaGoButton close ={this.toggleDrawer('left', false)} />
                 </SwipeableDrawer>
             </div>
         );
