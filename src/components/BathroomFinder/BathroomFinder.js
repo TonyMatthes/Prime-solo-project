@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import MapComponent from '../MapComponent/MapComponent';
-import {Typography, Grid} from '@material-ui/core/'
+import {Typography, Grid, Button} from '@material-ui/core/'
 
 
 class BathroomFinder extends Component {
@@ -20,6 +20,7 @@ componentWillUnmount(){
                 justify="space-around"
                 alignItems="flex-start">
                    <Grid item md={6}>
+                   <Button onClick={()=>this.props.dispatch({type:'CLEAR_DIRECTIONS'})}>Clear directions</Button>
                     <ol>
                        {this.props.directions.steps.map((step, index) =><Typography key={index} variant="body1"> <li > {step}</li></Typography>)}
                     </ol>
