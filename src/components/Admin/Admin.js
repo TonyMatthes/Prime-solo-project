@@ -27,12 +27,12 @@ class Admin extends Component {
                     <TableCell>Address</TableCell>
                     <TableCell>Type</TableCell>
                     <TableCell>Notes</TableCell>
-                    <TableCell>Delete</TableCell>
                     <TableCell>Amenities</TableCell>
+                    <TableCell>Delete</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                    {this.props.bathrooms.map(bathroom => <AdminItem key={bathroom._id} bathroom={bathroom} />)}
+                    {this.props.bathrooms.map(bathroom => <AdminItem key={bathroom.id} bathroom={bathroom} />)}
                 </TableBody>
               </Table>
             </Paper>
