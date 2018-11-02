@@ -26,8 +26,9 @@ class Admin extends Component {
                     <TableCell>Place Name</TableCell>
                     <TableCell>Address</TableCell>
                     <TableCell>Type</TableCell>
-                    <TableCell>Lat, Lng</TableCell>
                     <TableCell>Notes</TableCell>
+                    <TableCell>Delete</TableCell>
+                    <TableCell>Amenities</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -38,5 +39,5 @@ class Admin extends Component {
         );
     }
 }
-const mapReduxStateToProps = ({bathrooms})=>({bathrooms})
+const mapReduxStateToProps = ({bathrooms,location})=>({bathrooms,location})
 export default connect(mapReduxStateToProps) (Admin);

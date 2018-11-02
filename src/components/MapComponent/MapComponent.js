@@ -12,12 +12,14 @@ class MapComponent extends Component {
         selectedPlace: {},
     };
 
-    onMarkerClick = (props, marker, e) =>
+    onMarkerClick = (props, marker, e) => {
         this.setState({
             selectedPlace: props,
             activeMarker: marker,
             showingInfoWindow: true
         });
+        this.props.dispatch({type:'SET_SELECTED_BATHROOM', payload:marker})
+    }
 
 
     onMapClicked = (props) => {
@@ -27,6 +29,7 @@ class MapComponent extends Component {
                 activeMarker: {},
                 selectedPlace: {}
             })
+            this.props.dispatch({type:"CLEAR_SELECTED_BATHROOM"})
         }
     };
     //Below is a workaround to get around react-google-maps not dealing well with callback functions in an info window
@@ -65,15 +68,15 @@ class MapComponent extends Component {
             width: '100%',
             position: 'relative'
         }
-        const bounds = new this.props.google.maps.LatLngBounds();
-        if (this.props.gottaGo === false) {
-            for (let i = 0; i < this.props.bathrooms.length; i++) {
-                bounds.extend({ lat: this.props.bathrooms[i].latitude, lng: this.props.bathrooms[i].longitude });
-            }
-        } else {
-            bounds.extend({ lat: this.props.bathrooms[0].latitude, lng: this.props.bathrooms[0].longitude })
-        };
-        bounds.extend({ lat: this.props.location.latitude, lng: this.props.location.longitude })
+        // const bounds = new this.props.google.maps.LatLngBounds();
+        // if (this.props.gottaGo === false) {
+        //     for (let i = 0; i < this.props.bathrooms.length; i++) {
+        //         bounds.extend({ lat: this.props.bathrooms[i].latitude, lng: this.props.bathrooms[i].longitude });
+        //     }
+        // } else {
+        //     bounds.extend({ lat: this.props.bathrooms[0].latitude, lng: this.props.bathrooms[0].longitude })
+        // };
+        // bounds.extend({ lat: this.props.location.latitude, lng: this.props.location.longitude })
         return (
 
             <div style={mapStyle}>
@@ -83,7 +86,7 @@ class MapComponent extends Component {
                     onClick={this.onMapClicked}
                     mapTypeControl={false}
                     fullscreenControl={false}
-                    bounds={bounds}
+                // bounds={bounds}
                 >
                     <Marker
                         icon={locationIcon}
@@ -95,20 +98,26 @@ class MapComponent extends Component {
                         } />
                     {/* the ternary below determines how many bathrooms display, the whole
                         array, or just one if the GOTTA GO button is pressed */}
-                    {this.props.gottaGo === false ? this.props.bathrooms.map(bathroom => (
-                        <Marker key={bathroom.id} onClick={this.onMarkerClick}
-                            name={bathroom.place_name}
-                            address={bathroom.address}
-                            position={{ lat: bathroom.latitude, lng: bathroom.longitude, }}
-                            additionalDirections={bathroom.additional_directions}
-                            type={bathroom.type} />
-                    )) : <Marker
+                    {this.props.gottaGo === false ?
+                        this.props.bathrooms.map(bathroom => (
+                            <Marker key={bathroom.id}
+                                onClick={this.onMarkerClick}
+                                name={bathroom.place_name}
+                                address={bathroom.address}
+                                position={{ lat: bathroom.latitude, lng: bathroom.longitude, }}
+                                additionalDirections={bathroom.additional_directions}
+                                type={bathroom.type} 
+                                amenitiesPresent={bathroom.amenities_present}/>))
+                                
+                        :
+                        <Marker
                             onClick={this.onMarkerClick}
                             name={this.props.bathrooms[0].place_name}
                             address={this.props.bathrooms[0].address}
                             position={{ lat: this.props.bathrooms[0].latitude, lng: this.props.bathrooms[0].longitude, }}
                             additionalDirections={this.props.bathrooms[0].additional_directions}
-                            type={this.props.bathrooms[0].type} />
+                            type={this.props.bathrooms[0].type} 
+                            amenitiesPresent={this.props.bathrooms[0].amenities_present}/>
                     }
                     <InfoWindow
                         marker={this.state.activeMarker}
@@ -129,7 +138,7 @@ class MapComponent extends Component {
         )
     }
 }
-const mapStateToProps = ({ bathrooms, location, directions, gottaGo }) => ({ bathrooms, location, directions, gottaGo });
+const mapStateToProps = ({ bathrooms, location, directions, gottaGo, selectedBathroom }) => ({ bathrooms, location, directions, gottaGo, selectedBathroom });
 
 
 export default GoogleApiWrapper({

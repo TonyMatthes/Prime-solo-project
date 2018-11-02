@@ -8,7 +8,18 @@ const axios = require('axios')
  * GET ALL bathrooms
  */
 router.get('/', (req, res) => {
-    pool.query(`SELECT * FROM "bathroom"`)
+    pool.query(`SELECT "bathroom"."id",  
+                        "bathroom"."place_name",
+                        "bathroom"."address",
+                        "bathroom"."latitude",
+                        "bathroom"."longitude",
+                        "bathroom"."type",
+                        "bathroom"."additional_directions",
+                        array_agg("amenities"."name") as "amenities_present"
+                FROM "amenities_bathroom_join"
+                JOIN "amenities" ON "amenities"."id" = "amenities_bathroom_join"."amenites_id"
+                FULL OUTER JOIN "bathroom" ON "bathroom"."id" = "amenities_bathroom_join"."bathroom_id"
+                GROUP BY "bathroom"."id"`)
         .then((results) => {
             res.send(results.rows)
         })
@@ -25,16 +36,28 @@ router.get('/', (req, res) => {
  */
 router.get('/closest', (req, res) => {
     pool.query(`SELECT * FROM
-    (SELECT "id", "address","type","additional_directions","place_name",
-    (3959 * acos(cos(radians($1)) * cos(radians("latitude")) *
-    cos(radians("longitude") - radians($2)) +
-    sin(radians($1)) * sin(radians("latitude"))))
-    AS distance, "latitude","longitude"
-    FROM "bathroom") AS distances
-    WHERE distance < 5
-    ORDER BY distance
-    OFFSET 0
-    LIMIT $3;`, [req.query.latitude, req.query.longitude, req.query.limit])
+                    (SELECT 
+                        "bathroom"."id",
+                        "bathroom"."place_name",
+                        "bathroom"."address",
+                        (3959 * acos(cos(radians($1)) * 
+                            cos(radians("bathroom"."latitude")) *
+                            cos(radians("bathroom"."longitude") - radians($2)) +
+                            sin(radians($1)) * sin(radians("latitude"))))
+                        AS "distance", 
+                        "bathroom"."latitude",
+                        "bathroom"."longitude",
+                        "bathroom"."type",
+                        array_agg("amenities"."name") AS "amenities_present"
+                    FROM "amenities_bathroom_join"
+                    JOIN "amenities" ON "amenities"."id" = "amenities_bathroom_join"."amenites_id"
+                    FULL OUTER JOIN "bathroom" ON "bathroom"."id" = "amenities_bathroom_join"."bathroom_id"
+                    GROUP BY "bathroom"."id") 
+                AS distances
+                WHERE distance < 5
+                ORDER BY distance
+                OFFSET 0
+                LIMIT $3;`, [req.query.latitude, req.query.longitude, req.query.limit])
         .then((results) => {
             res.send(results.rows)
         })
@@ -67,15 +90,15 @@ router.delete('/:id', rejectUnauthenticated, (req, res) => {
             res.sendStatus(500);
         });
 });
-// router.put('/:id', (req, res) => {
-//     console.log(req.params)
-//      pool.query('DELETE FROM "bathroom" WHERE id=$1', [req.params.id])
-//         .then(() => { res.sendStatus(200); })
-//         .catch((err) => {
-//             console.log('Error in DELETE', err);
-//             res.sendStatus(500);
-//         });
-// });
+router.put('/:id', rejectUnauthenticated, (req, res) => {
+    console.log(req.params)
+     pool.query(`UPDATE "bathroom" WHERE id=$1`, [req.params.id])
+        .then(() => { res.sendStatus(200); })
+        .catch((err) => {
+            console.log('Error in DELETE', err);
+            res.sendStatus(500);
+        });
+});
 
 
 

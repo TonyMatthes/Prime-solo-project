@@ -16,13 +16,17 @@ class AdminItem extends Component {
               <TableCell component="th" scope="row">{this.props.bathroom.place_name}</TableCell>
               <TableCell> {this.props.bathroom.address}</TableCell>
               <TableCell>{this.props.bathroom.type}</TableCell>
-              <TableCell>{this.props.bathroom.latitude},{this.props.bathroom.longitude}</TableCell>
               <TableCell>{this.props.bathroom.additional_directions}</TableCell>
               <TableCell>
               <IconButton onClick={()=>this.handleDelete(this.props.bathroom.id)}>
                       <DeleteIcon />
                     </IconButton>
-               </TableCell>     
+               </TableCell>
+               <TableCell>
+                   <ul>
+                   {this.props.bathroom.amenities_present.map((amenity, index)=><li key={index}>{amenity}</li>)}
+                   </ul>
+                </TableCell>     
             </TableRow>
         );
     }

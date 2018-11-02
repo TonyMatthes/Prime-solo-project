@@ -6,6 +6,7 @@ import bathrooms from './bathroomReducer'
 import location from './locationReducer'
 import directions from './directionsReducer'
 import gottaGo from './gottaGoReducer'
+import selectedBathroom from './selectedBathroomReducer'
 
 // rootReducer is the primary reducer for our entire project
 // It bundles up all of the other reducers so our project can use them.
@@ -20,7 +21,8 @@ const rootReducer = combineReducers({
   bathrooms,
   location,
   directions,
-  gottaGo
+  gottaGo,
+  selectedBathroom,
 });
 
 export default rootReducer;
