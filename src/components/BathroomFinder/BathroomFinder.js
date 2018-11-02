@@ -31,12 +31,12 @@ class BathroomFinder extends Component {
                             !this.props.selectedBathroom.amenitiesPresent ?
                                 <></>
                                 :
-                                this.props.selectedBathroom.amenitiesPresent[0] === null ?
+                                !this.props.selectedBathroom.amenitiesPresent[0] ?
                                     <Typography variant="body1">No reported features, someone should get on that.</Typography>
                                     :
                                     <ul>
                                         {this.props.selectedBathroom.amenitiesPresent.map((amenity, index) =>
-                                            <li key={index}>{amenity}</li>)}
+                                            <li key={index}><Typography variant="body1">{amenity}</Typography></li>)}
                                     </ul>
                         }
                     </Grid>

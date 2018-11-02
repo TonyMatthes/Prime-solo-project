@@ -59,7 +59,8 @@ router.get('/closest', (req, res) => {
                 OFFSET 0
                 LIMIT $3;`, [req.query.latitude, req.query.longitude, req.query.limit])
         .then((results) => {
-            res.send(results.rows)
+            const deNullifier = (array) => array[0] === null ? [] : array
+            res.send(deNullifier(results.rows))
         })
         .catch((error) => {
             console.log('error getting bathrooms', error)
