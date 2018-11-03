@@ -35,6 +35,7 @@ class SwipeableTemporaryDrawer extends React.Component {
                             aria-label="Open drawer">
                             <MenuIcon />
                         </IconButton>
+                        <GottaGoButton close={this.toggleDrawer('left', false)}/>
                         <Typography style={{flex:1}} variant="h6">
                             Crappr
                             </Typography>

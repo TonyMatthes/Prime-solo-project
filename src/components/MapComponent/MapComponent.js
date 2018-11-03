@@ -39,7 +39,6 @@ class MapComponent extends Component {
                 <Typography variant="h6">{this.state.selectedPlace.name}</Typography>
 
                 <Typography variant="body1">{this.state.selectedPlace.address}</Typography>
-                <Typography variant="body1">{this.state.selectedPlace.type} bathrooms</Typography>
                 <Typography variant="body1">notes: {!this.state.selectedPlace.additionalDirections ? "none" : this.state.selectedPlace.additionalDirections}</Typography>
 
                 <Button onClick={this.onDirectionsClick}>Directions</Button>

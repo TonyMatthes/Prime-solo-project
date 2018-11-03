@@ -15,11 +15,10 @@ class AdminItem extends Component {
             <TableRow>
                 <TableCell component="th" scope="row">{this.props.bathroom.place_name}</TableCell>
                 <TableCell> {this.props.bathroom.address}</TableCell>
-                <TableCell><ul>{this.props.bathroom.type[0]===null?"no types added":this.props.bathroom.type.map((item, index)=> <li key={index}>{item}</li>)}</ul></TableCell>
                 <TableCell>{this.props.bathroom.additional_directions}</TableCell>
                 <TableCell>
                     <ul>
-                        {this.props.bathroom.type[0]===null?"no amenities added":this.props.bathroom.amenities_present.map((amenity, index) => <li key={index}>{amenity}</li>)}
+                        {this.props.bathroom.amenities_present[0]===null?"no amenities added":this.props.bathroom.amenities_present.map((amenity, index) => <li key={index}>{amenity}</li>)}
                     </ul>
                 </TableCell>
                 <TableCell>

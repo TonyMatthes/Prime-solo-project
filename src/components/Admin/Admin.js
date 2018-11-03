@@ -25,7 +25,6 @@ class Admin extends Component {
                   <TableRow>
                     <TableCell>Place Name</TableCell>
                     <TableCell>Address</TableCell>
-                    <TableCell>Type</TableCell>
                     <TableCell>Notes</TableCell>
                     <TableCell>Amenities</TableCell>
                     <TableCell>Delete</TableCell>
