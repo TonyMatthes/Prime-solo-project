@@ -71,9 +71,9 @@ router.get('/closest', (req, res) => {
  * POST route template
  */
 router.post('/', (req, res) => {
-    console.log('in POST, posting: ', req.body)
-   
+    //takes keys from objects that are true, which are the IDs for our amenities
     const amenitiesToSend = Object.keys(req.body.amenities).filter(present=>req.body.amenities[present])
+    //maps the amenities into a bit of query string to allow an arbitrary number of amenities to be added
     let amenityMap = amenitiesToSend.map(amenity=>`(${amenity},(select "id" from "first_insert"))`)
     let queryText= `
     WITH "first_insert" AS (

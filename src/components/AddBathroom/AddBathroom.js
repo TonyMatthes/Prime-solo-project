@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { GoogleApiWrapper } from 'google-maps-react';
-import { FormControl, FormGroup, FormControlLabel, Checkbox, TextField, Button } from '@material-ui/core'
+import { FormControl, FormControlLabel, Checkbox, TextField, Button } from '@material-ui/core'
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
