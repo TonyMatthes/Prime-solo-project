@@ -45,7 +45,9 @@ class BathroomFinder extends Component {
         )
     }
 }
-const mapStateToProps = ({ bathrooms, location, directions, gottaGo, selectedBathroom, }) => ({ bathrooms, location, directions, gottaGo, selectedBathroom, });
+const mapStateToProps =
+    ({ bathrooms, location, directions, gottaGo, selectedBathroom, }) =>
+        ({ bathrooms, location, directions, gottaGo, selectedBathroom, });
 
 
 export default connect(mapStateToProps)(BathroomFinder);

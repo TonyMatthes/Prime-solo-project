@@ -39,7 +39,7 @@ class MapComponent extends Component {
                 <Typography variant="h6">{this.state.selectedPlace.name}</Typography>
 
                 <Typography variant="body1">{this.state.selectedPlace.address}</Typography>
-                <Typography variant="body1">notes: {!this.state.selectedPlace.additionalDirections ? "none" : this.state.selectedPlace.additionalDirections}</Typography>
+                <Typography variant="body1">Additional Directions: {!this.state.selectedPlace.additionalDirections ? "none" : this.state.selectedPlace.additionalDirections}</Typography>
 
                 <Button onClick={this.onDirectionsClick}>Directions</Button>
             </div>
@@ -105,7 +105,6 @@ class MapComponent extends Component {
                                 address={bathroom.address}
                                 position={{ lat: bathroom.latitude, lng: bathroom.longitude, }}
                                 additionalDirections={bathroom.additional_directions}
-                                type={bathroom.type} 
                                 amenitiesPresent={bathroom.amenities_present}/>))
                                 
                         :
@@ -115,7 +114,6 @@ class MapComponent extends Component {
                             address={this.props.bathrooms[0].address}
                             position={{ lat: this.props.bathrooms[0].latitude, lng: this.props.bathrooms[0].longitude, }}
                             additionalDirections={this.props.bathrooms[0].additional_directions}
-                            type={this.props.bathrooms[0].type} 
                             amenitiesPresent={this.props.bathrooms[0].amenities_present}/>
                     }
                     <InfoWindow
@@ -127,11 +125,11 @@ class MapComponent extends Component {
                         }}>
                         <div id="iwc" />
                     </InfoWindow>
-                    {<Polyline
+                    <Polyline
                         path={this.props.directions.polyline}
                         strokeColor="#0000FF"
                         strokeOpacity={0.8}
-                        strokeWeight={2} />}
+                        strokeWeight={2} />
                 </Map>
             </div>
         )
