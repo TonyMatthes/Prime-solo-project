@@ -17,10 +17,10 @@ import App from './components/App/App';
 const theme = createMuiTheme({
   palette: {
       primary: {
-          main: '#ff9100',
+          main: '#ff9900',
       },
       secondary: {
-          main: '#00ACB0',
+          main: '#9900ff',
       },
   },
   typography: {

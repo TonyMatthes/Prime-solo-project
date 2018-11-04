@@ -23,6 +23,22 @@ function* getClosestBathroom(action) {
     }
 }
 
+function* getFilteredBathrooms(action) {
+    try {
+        const response = yield axios.get('api/bathroom/search', {params:{
+            latitude:action.payload.latitude,
+            longitude:action.payload.longitude,
+            limit:action.payload.limit,
+            amenities: action.payload.amenities
+
+        }});
+        yield put({ type: 'SET_BATHROOMS', payload: response.data });
+        yield put({ type: 'CLEAR_DIRECTIONS'});
+    } catch (error) {
+        console.log('Error getting bathrooms', error);
+    }
+}
+
 
 function* addBathroom(action) {
     try {
@@ -45,6 +61,7 @@ function* deleteBathroom(action) {
 function* bathroomSaga() {
     yield takeLatest('GET_ALL_BATHROOMS', getAllBathrooms);
     yield takeLatest('GET_CLOSEST_BATHROOM', getClosestBathroom);
+    yield takeLatest('GET_FILTERED_BATHROOMS', getFilteredBathrooms);
     yield takeLatest('ADD_BATHROOM', addBathroom);
     yield takeLatest('DELETE_BATHROOM', deleteBathroom);
 }

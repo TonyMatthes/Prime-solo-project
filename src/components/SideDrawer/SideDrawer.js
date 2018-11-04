@@ -6,7 +6,9 @@ import UserIcon from '@material-ui/icons/Person';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import FormControlLabel from '@material-ui/core/FormControlLabel'
-import Checkbox from '@material-ui/core/Checkbox'
+import RadioGroup from '@material-ui/core/RadioGroup'
+import Radio from '@material-ui/core/Checkbox'
+import Button from '@material-ui/core/Button'
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import NavButton from '../NavButton/NavButton'
@@ -17,7 +19,7 @@ class SwipeableTemporaryDrawer extends React.Component {
     state = {
         left: false,
         right: false,
-        amenitiesToSearch:{}
+        amenitiesToSearch: ''
     };
 
     toggleDrawer = (side, open) => () => {
@@ -25,13 +27,22 @@ class SwipeableTemporaryDrawer extends React.Component {
             [side]: open,
         });
     };
-    handleAmenityChange = (input, target) => event => {
-        this.setState({amenitiesToSearch:
-            {...this.state.amenitiesToSearch,
-                [input] : event.target[target]},
-    })
+    handleAmenityChange = () => event => {
+        this.setState({
+            amenitiesToSearch: event.target.value
+        })
     }
-
+    filterSearch = () => {
+        this.props.dispatch({
+            type: 'GET_FILTERED_BATHROOMS',
+            payload: {
+                amenities: this.state.amenitiesToSearch,
+                latitude: this.props.location.latitude,
+                longitude: this.props.location.longitude,
+                limit: 25
+            }
+        })
+    }
     render() {
 
         return (
@@ -84,24 +95,27 @@ class SwipeableTemporaryDrawer extends React.Component {
                     onClose={this.toggleDrawer('right', false)}
                     onOpen={this.toggleDrawer('right', true)}
                 >
-                   <pre>{JSON.stringify(this.state, null, 2)}</pre>
+                <pre>{JSON.stringify(this.state)}</pre>
+                    <Button onClick={this.filterSearch}>Narrow Your search</Button>
+                    <RadioGroup
+                        value={this.state.amenitiesToSearch}
+                        onChange={this.handleAmenityChange()}
+                    >
                         {this.props.amenities.map((amenity) =>
                             <FormControlLabel key={amenity.id}
                                 control={
-                                    <Checkbox
-                                        onChange={this.handleAmenityChange(amenity.id, 'checked')}
-                                        value={amenity.id}
+                                    <Radio
                                     />}
-
+                                value={`${amenity.id}`}
                                 label={amenity.name}
                             />
                         )}
-               
+                    </RadioGroup>
                 </SwipeableDrawer>
             </div>
         );
     }
 }
 
-const mapReduxStateToProps = ({ user, amenities }) => ({ user, amenities })
+const mapReduxStateToProps = ({ user, amenities, location }) => ({ user, amenities, location })
 export default connect(mapReduxStateToProps)(SwipeableTemporaryDrawer);
