@@ -5,6 +5,8 @@ import MenuIcon from '@material-ui/icons/Menu';
 import UserIcon from '@material-ui/icons/Person';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
+import FormControlLabel from '@material-ui/core/FormControlLabel'
+import Checkbox from '@material-ui/core/Checkbox'
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import NavButton from '../NavButton/NavButton'
@@ -15,6 +17,7 @@ class SwipeableTemporaryDrawer extends React.Component {
     state = {
         left: false,
         right: false,
+        amenitiesToSearch:{}
     };
 
     toggleDrawer = (side, open) => () => {
@@ -22,7 +25,12 @@ class SwipeableTemporaryDrawer extends React.Component {
             [side]: open,
         });
     };
-
+    handleAmenityChange = (input, target) => event => {
+        this.setState({amenitiesToSearch:
+            {...this.state.amenitiesToSearch,
+                [input] : event.target[target]},
+    })
+    }
 
     render() {
 
@@ -35,15 +43,15 @@ class SwipeableTemporaryDrawer extends React.Component {
                             aria-label="Open drawer">
                             <MenuIcon />
                         </IconButton>
-                        <GottaGoButton close={this.toggleDrawer('left', false)}/>
-                        <Typography style={{flex:1}} variant="h6">
+                        <GottaGoButton close={this.toggleDrawer('left', false)} />
+                        <Typography style={{ flex: 1 }} variant="h6">
                             Crappr
                             </Typography>
-                            <IconButton
-                                onClick={this.toggleDrawer('right', true)}
-                                aria-label="Open drawer">
-                                <UserIcon />
-                            </IconButton>
+                        <IconButton
+                            onClick={this.toggleDrawer('right', true)}
+                            aria-label="Open drawer">
+                            <UserIcon />
+                        </IconButton>
                     </Toolbar>
                 </AppBar>
                 <SwipeableDrawer
@@ -76,12 +84,24 @@ class SwipeableTemporaryDrawer extends React.Component {
                     onClose={this.toggleDrawer('right', false)}
                     onOpen={this.toggleDrawer('right', true)}
                 >
-                    <p>this will be the user drawer</p>
+                   <pre>{JSON.stringify(this.state, null, 2)}</pre>
+                        {this.props.amenities.map((amenity) =>
+                            <FormControlLabel key={amenity.id}
+                                control={
+                                    <Checkbox
+                                        onChange={this.handleAmenityChange(amenity.id, 'checked')}
+                                        value={amenity.id}
+                                    />}
+
+                                label={amenity.name}
+                            />
+                        )}
+               
                 </SwipeableDrawer>
             </div>
         );
     }
 }
 
-const mapReduxStateToProps = ({ user }) => ({ user })
+const mapReduxStateToProps = ({ user, amenities }) => ({ user, amenities })
 export default connect(mapReduxStateToProps)(SwipeableTemporaryDrawer);

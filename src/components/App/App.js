@@ -32,12 +32,13 @@ class App extends Component {
     this.setState({recievedLocationPermission:true});
     this.props.dispatch({ type: "SET_LOCATION", payload: resolution.coords })
     this.props.dispatch({ type: "GET_CLOSEST_BATHROOM", payload: {latitude:resolution.coords.latitude, longitude:resolution.coords.longitude, limit:25}}) 
-
   }
 
   componentDidMount() {
     this.getUserLocation()
     this.props.dispatch({ type: 'FETCH_USER' })
+    this.props.dispatch({ type: 'GET_AMENITIES' })
+
   }
 
   render() {

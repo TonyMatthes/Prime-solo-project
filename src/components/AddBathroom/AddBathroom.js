@@ -18,21 +18,13 @@ class AddBathroom extends Component {
             amenities: {},
             additionalDirections: '',
         }
-
-
     };
-
     handleClose = () => {
         this.setState({ open: false, });
     };
-
     componentDidMount() {
         this.renderAutoComplete();
-        this.props.dispatch({ type: 'GET_AMENITIES' })
     }
-
-
-
     onSubmit = (event) => {
         event.preventDefault();
         this.props.dispatch({ type: 'ADD_BATHROOM', payload: this.state.bathroomToAdd })
@@ -43,7 +35,7 @@ class AddBathroom extends Component {
                 position: {},
                 address: {},
                 name: '',
-                amenities: {},
+                amenities: {...this.state.bathroomToAdd.amenities},
                 additionalDirections: '',
             }
         })
@@ -83,6 +75,7 @@ class AddBathroom extends Component {
     render() {
         return (this.props.amenities ?
             <div >
+                <pre>{JSON.stringify(this.state, null, 2)}</pre>
                 <form onSubmit={this.onSubmit}>
                     <FormControl>
                         <TextField style={{ width: 400 }}
@@ -90,12 +83,12 @@ class AddBathroom extends Component {
                             inputRef={ref => (this.autocomplete = ref)}
                             type="text"
                         />
-                        <FormGroup row>
+                        
                             {this.props.amenities.map((amenity) =>
                                 <FormControlLabel key={amenity.id}
                                     control={
                                         <Checkbox
-                                            // checked={this.state.types[amenity.id]}
+                                            checked={!this.props.amenities? false:this.state.bathroomToAdd.amenities[amenity.id]}
                                             onChange={this.handleAmenityChange(amenity.id, 'checked')}
                                             value={amenity.id}
                                         />}
@@ -103,7 +96,7 @@ class AddBathroom extends Component {
                                     label={amenity.name}
                                 />
                             )}
-                        </FormGroup>
+                        
                         <TextField
                             placeholder='Any additional directions?'
                             onChange={this.handleChange('additionalDirections', 'value')}

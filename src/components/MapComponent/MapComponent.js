@@ -39,7 +39,10 @@ class MapComponent extends Component {
                 <Typography variant="h6">{this.state.selectedPlace.name}</Typography>
 
                 <Typography variant="body1">{this.state.selectedPlace.address}</Typography>
-                <Typography variant="body1">Additional Directions: {!this.state.selectedPlace.additionalDirections ? "none" : this.state.selectedPlace.additionalDirections}</Typography>
+                <Typography variant="body1">
+                Additional Directions: {!this.state.selectedPlace.additionalDirections ?
+                 "none" : this.state.selectedPlace.additionalDirections}
+                 </Typography>
 
                 <Button onClick={this.onDirectionsClick}>Directions</Button>
             </div>
@@ -125,11 +128,11 @@ class MapComponent extends Component {
                         }}>
                         <div id="iwc" />
                     </InfoWindow>
-                    <Polyline
+                    {!this.props.directions.polyline[0]?<></>:<Polyline
                         path={this.props.directions.polyline}
                         strokeColor="#0000FF"
                         strokeOpacity={0.8}
-                        strokeWeight={2} />
+                        strokeWeight={2} />}
                 </Map>
             </div>
         )
