@@ -9,7 +9,6 @@ import {
 import { connect } from 'react-redux';
 import { GoogleApiWrapper } from 'google-maps-react'
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute'
-
 import AboutPage from '../AboutPage/AboutPage';
 import UserPage from '../UserPage/UserPage';
 import InfoPage from '../InfoPage/InfoPage';
@@ -31,7 +30,12 @@ class App extends Component {
   setLocation=(resolution)=>{
     this.setState({recievedLocationPermission:true});
     this.props.dispatch({ type: "SET_LOCATION", payload: resolution.coords })
-    this.props.dispatch({ type: "GET_CLOSEST_BATHROOM", payload: {latitude:resolution.coords.latitude, longitude:resolution.coords.longitude, limit:25}}) 
+    this.props.dispatch({ 
+      type: "GET_CLOSEST_BATHROOM", 
+      payload: {
+        latitude:resolution.coords.latitude, 
+        longitude:resolution.coords.longitude, 
+        limit:25}}) 
   }
 
   componentDidMount() {

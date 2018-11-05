@@ -21,6 +21,7 @@ class AddBathroom extends Component {
   };
   handleClose = () => {
     this.setState({ open: false, });
+    this.props.history.push('./bathroomfinder')
   };
   componentDidMount() {
     this.renderAutoComplete();
