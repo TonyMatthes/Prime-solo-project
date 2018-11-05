@@ -13,7 +13,7 @@ function* getLocation(action) {
         yield put({type:'GET_CLOSEST_BATHROOM', payload:{
             latitude: location.coords.latitude,
             longitude: location.coords.longitude,
-            limit:10
+            limit:25
         }})
     } catch (error) {
         console.log('Couldn\'t get location', error)

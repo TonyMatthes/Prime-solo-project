@@ -124,6 +124,7 @@ class MapComponent extends Component {
             :
             <Marker
               onClick={this.onMarkerClick}
+              bathroom={this.props.bathrooms[0]}
               name={this.props.bathrooms[0].place_name}
               address={this.props.bathrooms[0].address}
               position={{ lat: this.props.bathrooms[0].latitude, lng: this.props.bathrooms[0].longitude, }}

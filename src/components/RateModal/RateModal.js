@@ -63,7 +63,8 @@ class RateModal extends Component {
                   rating: Number(this.state.rating)
                 }
               })
-              this.props.handleClose()}
+              this.props.handleClose()
+            this.setState({rating:''})}
               }>
               Submit
               </Button>
