@@ -29,5 +29,5 @@ class GottaGoButton extends Component {
         )
     };
 }
-const mapReduxStateToProps = ({ location, gottaGo }) => ({ location, gottaGo })
+const mapReduxStateToProps = ({ location, gottaGo, }) => ({ location, gottaGo, })
 export default withRouter(connect(mapReduxStateToProps)(GottaGoButton));

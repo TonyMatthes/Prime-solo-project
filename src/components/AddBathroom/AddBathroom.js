@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { GoogleApiWrapper } from 'google-maps-react';
-import { FormControl, FormControlLabel, Checkbox, TextField, Button } from '@material-ui/core'
+import { FormControl, FormGroup, FormControlLabel, Checkbox, TextField, Button } from '@material-ui/core'
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -35,7 +35,7 @@ class AddBathroom extends Component {
                 position: {},
                 address: {},
                 name: '',
-                amenities: {...this.state.bathroomToAdd.amenities},
+                amenities: { ...this.state.bathroomToAdd.amenities },
                 additionalDirections: '',
             }
         })
@@ -44,17 +44,23 @@ class AddBathroom extends Component {
     }
 
     handleChange = (input, target) => event => {
-        this.setState({bathroomToAdd:{
-            ...this.state.bathroomToAdd,
-            [input]: event.target[target],
-        }})
+        this.setState({
+            bathroomToAdd: {
+                ...this.state.bathroomToAdd,
+                [input]: event.target[target],
+            }
+        })
     }
     handleAmenityChange = (input, target) => event => {
-        this.setState({bathroomToAdd:{
-            ...this.state.bathroomToAdd,
-            amenities: {...this.state.bathroomToAdd.amenities,
-                [input] : event.target[target]},
-        }})
+        this.setState({
+            bathroomToAdd: {
+                ...this.state.bathroomToAdd,
+                amenities: {
+                    ...this.state.bathroomToAdd.amenities,
+                    [input]: event.target[target]
+                },
+            }
+        })
     }
 
     renderAutoComplete() {
@@ -63,32 +69,35 @@ class AddBathroom extends Component {
 
         autocomplete.addListener('place_changed', () => {
             const place = autocomplete.getPlace();
-            this.setState({ bathroomToAdd:{
-                ...this.state.bathroomToAdd,
-                position: place.geometry.location,
-                address: place.formatted_address,
-                name: place.name
-            }});
+            this.setState({
+                bathroomToAdd: {
+                    ...this.state.bathroomToAdd,
+                    position: place.geometry.location,
+                    address: place.formatted_address,
+                    name: place.name
+                }
+            });
         });
     }
 
     render() {
         return (this.props.amenities ?
             <div >
-                <pre>{JSON.stringify(this.state, null, 2)}</pre>
                 <form onSubmit={this.onSubmit}>
-                    <FormControl>
-                        <TextField style={{ width: 400 }}
-                            placeholder="Enter a location"
-                            inputRef={ref => (this.autocomplete = ref)}
-                            type="text"
-                        />
-                        
+                    <FormGroup>
+                        <FormControl>
+                            <TextField 
+                                placeholder="Enter a location"
+                                inputRef={ref => (this.autocomplete = ref)}
+                                type="text"
+                            />
+
                             {this.props.amenities.map((amenity) =>
+
                                 <FormControlLabel key={amenity.id}
                                     control={
                                         <Checkbox
-                                            checked={!this.props.amenities? false:this.state.bathroomToAdd.amenities[amenity.id]}
+                                            checked={!this.props.amenities ? false : this.state.bathroomToAdd.amenities[amenity.id]}
                                             onChange={this.handleAmenityChange(amenity.id, 'checked')}
                                             value={amenity.id}
                                         />}
@@ -96,23 +105,24 @@ class AddBathroom extends Component {
                                     label={amenity.name}
                                 />
                             )}
-                        
-                        <TextField
-                            placeholder='Any additional directions?'
-                            onChange={this.handleChange('additionalDirections', 'value')}
-                            value={this.state.additionalDirections}
-                        />
 
-                        <Button type="submit" >Submit</Button>
-                    </FormControl>
+                            <TextField
+                                placeholder='Any additional directions?'
+                                onChange={this.handleChange('additionalDirections', 'value')}
+                                value={this.state.additionalDirections}
+                            />
+
+                            <Button type="submit" >Submit</Button>
+
+                        </FormControl>
+                    </FormGroup>
                 </form>
                 <Dialog
                     open={this.state.open}
                     onClose={this.handleClose}
-                    aria-labelledby="alert-dialog-title"
-                    aria-describedby="alert-dialog-description"
+
                 >
-                    <DialogTitle id="alert-dialog-title">{"Submitted!"}</DialogTitle>
+                    <DialogTitle>Submitted!</DialogTitle>
                     <DialogContent>
                         <DialogContentText id="alert-dialog-description">
                             Bathroom Added
@@ -125,7 +135,7 @@ class AddBathroom extends Component {
                     </DialogActions>
                 </Dialog>
 
-            </ div>
+            </ div >
             :
             <p>loading...</p>
         );

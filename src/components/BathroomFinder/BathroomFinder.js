@@ -16,28 +16,41 @@ class BathroomFinder extends Component {
                 <Grid
                     container
                     direction="row"
-                    justify="space-around"
+                    justify="center"
                     alignItems="flex-start">
-                    <Grid item md={6}>
-                        <Button onClick={() => this.props.dispatch({ type: 'CLEAR_DIRECTIONS' })}>Clear directions</Button>
-                        <ol>
-                            {this.props.directions.steps.map((step, index) => <Typography key={index} variant="body1"> <li > {step}</li></Typography>)}
-                        </ol>
-                    </Grid>
-                    <Grid item md={6}>
-                        <Typography variant="h6">Features</Typography>
-                        {   /* this obtuse double ternary displays features if they're there, 
+
+                    {!this.props.directions.polyline[0] ? <></> :
+                        <Grid item lg={6}>
+                            <Button onClick={() => this.props.dispatch({ type: 'CLEAR_DIRECTIONS' })}>Clear directions</Button>
+                            <ol>
+                                {this.props.directions.steps.map(
+                                    (step, index) =>
+                                        <Typography key={index} variant="body1"> <li > {step}</li></Typography>
+                                )}
+                            </ol>
+                        </Grid>
+                    }
+
+                    <Grid item lg={6}>
+                        {   /* this double ternary displays features if they're there, 
                                 a message if they're not, and nothing if nothing's selected, in reverse order */
                             !this.props.selectedBathroom.amenitiesPresent ?
                                 <></>
                                 :
                                 !this.props.selectedBathroom.amenitiesPresent[0] ?
-                                    <Typography variant="body1">No reported features, someone should get on that.</Typography>
+                                    <>
+                                        <Typography variant="h6">Features</Typography>
+                                        <Typography variant="body1">No reported features, someone should get on that.</Typography>
+                                    </>
                                     :
-                                    <ul>
-                                        {this.props.selectedBathroom.amenitiesPresent.map((amenity, index) =>
-                                            <li key={index}><Typography variant="body1">{amenity}</Typography></li>)}
-                                    </ul>
+                                    <>
+                                        <Typography variant="h6">Features</Typography>
+                                        <ul>
+                                            {this.props.selectedBathroom.amenitiesPresent.map(
+                                                (amenity, index) =>
+                                                    <li key={index}><Typography variant="body1">{amenity}</Typography></li>)}
+                                        </ul>
+                                    </>
                         }
                     </Grid>
                 </Grid>
@@ -45,7 +58,8 @@ class BathroomFinder extends Component {
         )
     }
 }
-const mapStateToProps = ({ bathrooms, location, directions, gottaGo, selectedBathroom, }) => ({ bathrooms, location, directions, gottaGo, selectedBathroom, });
+const mapStateToProps = ({ bathrooms, location, directions, gottaGo, selectedBathroom, }) =>
+    ({ bathrooms, location, directions, gottaGo, selectedBathroom, });
 
 
 export default connect(mapStateToProps)(BathroomFinder);

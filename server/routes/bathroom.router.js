@@ -101,7 +101,7 @@ console.log(req.query)
 /**
  * POST route template
  */
-router.post('/', (req, res) => {
+router.post('/', rejectUnauthenticated, (req, res) => {
     //takes keys from objects that are true, which are the IDs for our amenities
     const amenitiesToSend = Object.keys(req.body.amenities).filter(present=>req.body.amenities[present])
     //maps the amenities into a bit of query string to allow an arbitrary number of amenities to be added

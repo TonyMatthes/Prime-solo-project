@@ -11,13 +11,15 @@ function* getAllBathrooms() {
 
 function* getClosestBathroom(action) {
     try {
-        const response = yield axios.get('api/bathroom/closest', {params:{
-            latitude:action.payload.latitude,
-            longitude:action.payload.longitude,
-            limit:action.payload.limit,
-        }});
+        const response = yield axios.get('api/bathroom/closest', {
+            params: {
+                latitude: action.payload.latitude,
+                longitude: action.payload.longitude,
+                limit: action.payload.limit,
+            }
+        });
         yield put({ type: 'SET_BATHROOMS', payload: response.data });
-        yield put({ type: 'CLEAR_DIRECTIONS'});
+        yield put({ type: 'CLEAR_DIRECTIONS' });
     } catch (error) {
         console.log('Error getting bathrooms', error);
     }
@@ -25,15 +27,26 @@ function* getClosestBathroom(action) {
 
 function* getFilteredBathrooms(action) {
     try {
-        const response = yield axios.get('api/bathroom/search', {params:{
-            latitude:action.payload.latitude,
-            longitude:action.payload.longitude,
-            limit:action.payload.limit,
-            amenities: action.payload.amenities
-
-        }});
-        yield put({ type: 'SET_BATHROOMS', payload: response.data });
-        yield put({ type: 'CLEAR_DIRECTIONS'});
+        //get keys from sent object of {(amenity):(Boolean)...} and filter out the false ones
+        const filterFeatures = Object.keys(action.payload.filterProps).filter(present => action.payload.filterProps[present])
+        // declare an array to set as the new list of bathrooms
+        let filteredArray = []
+        //check for bathrooms that contain every amenity chosen.
+        for (let bathroom of action.payload.bathrooms) {
+            let matches = 0
+            for (let amenity of filterFeatures) {
+                if (bathroom.amenities_present.indexOf(amenity) === -1) {
+                    matches--
+                } else {
+                    matches++
+                }//and push them into the array if they fit
+                if (matches === filterFeatures.length) {
+                    filteredArray.push(bathroom)
+                }
+            }
+        }
+        yield put({ type: 'SET_BATHROOMS', payload: filteredArray });
+        yield put({ type: 'CLEAR_DIRECTIONS' });
     } catch (error) {
         console.log('Error getting bathrooms', error);
     }

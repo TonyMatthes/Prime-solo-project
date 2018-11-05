@@ -7,7 +7,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import RadioGroup from '@material-ui/core/RadioGroup'
-import Radio from '@material-ui/core/Checkbox'
+import Checkbox from '@material-ui/core/Checkbox'
 import Button from '@material-ui/core/Button'
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
@@ -19,29 +19,44 @@ class SwipeableTemporaryDrawer extends React.Component {
     state = {
         left: false,
         right: false,
-        amenitiesToSearch: ''
+        amenitiesToSearch: {}
     };
 
-    toggleDrawer = (side, open) => () => {
+    toggleDrawer = (side, isOpen) => () => {
         this.setState({
-            [side]: open,
+            [side]: isOpen,
         });
     };
-    handleAmenityChange = () => event => {
+    handleAmenityChange = (input, target) => event => {
         this.setState({
-            amenitiesToSearch: event.target.value
-        })
+            amenitiesToSearch: {
+                ...this.state.amenitiesToSearch,
+                [input]: event.target[target]
+            },
+        }
+        )
     }
     filterSearch = () => {
         this.props.dispatch({
             type: 'GET_FILTERED_BATHROOMS',
             payload: {
-                amenities: this.state.amenitiesToSearch,
+                bathrooms: this.props.bathrooms,
+                filterProps: this.state.amenitiesToSearch
+            }
+        })
+        this.setState({ amenitiesToSearch: {}, right: false })
+    }
+    clearSearch = () => {
+        this.props.dispatch({
+            type: 'GET_CLOSEST_BATHROOM',
+            payload: {
+
                 latitude: this.props.location.latitude,
                 longitude: this.props.location.longitude,
                 limit: 25
             }
         })
+        this.setState({ amenitiesToSearch: {}, right: false })
     }
     render() {
 
@@ -95,27 +110,28 @@ class SwipeableTemporaryDrawer extends React.Component {
                     onClose={this.toggleDrawer('right', false)}
                     onOpen={this.toggleDrawer('right', true)}
                 >
-                <pre>{JSON.stringify(this.state)}</pre>
+                    <pre>{JSON.stringify(this.state, null, 2)}</pre>
+                    <Button onClick={this.clearSearch}>Clear Search</Button>
                     <Button onClick={this.filterSearch}>Narrow Your search</Button>
-                    <RadioGroup
-                        value={this.state.amenitiesToSearch}
-                        onChange={this.handleAmenityChange()}
-                    >
-                        {this.props.amenities.map((amenity) =>
-                            <FormControlLabel key={amenity.id}
-                                control={
-                                    <Radio
-                                    />}
-                                value={`${amenity.id}`}
-                                label={amenity.name}
-                            />
-                        )}
-                    </RadioGroup>
+
+                    {!this.props.amenities ? <></> : this.props.amenities.map((amenity) =>
+                        <FormControlLabel key={amenity.id}
+
+                            control={
+                                <Checkbox
+                                    // checked={!this.props.amenities ? false : this.state.amenitiestToSearch[amenity.name]}
+                                    onChange={this.handleAmenityChange(amenity.name, 'checked')}
+                                    value={amenity.name}
+                                />}
+
+                            label={amenity.name}
+                        />
+                    )}
                 </SwipeableDrawer>
             </div>
         );
     }
 }
 
-const mapReduxStateToProps = ({ user, amenities, location }) => ({ user, amenities, location })
+const mapReduxStateToProps = ({ user, amenities, location, bathrooms }) => ({ user, amenities, location, bathrooms })
 export default connect(mapReduxStateToProps)(SwipeableTemporaryDrawer);
