@@ -95,7 +95,7 @@ class SwipeableTemporaryDrawer extends React.Component {
 
           {this.props.user &&  (
             <>
-              <NavButton close={this.toggleDrawer('left', false)} path="/info" name="Info Page" />
+              {/* <NavButton close={this.toggleDrawer('left', false)} path="/info" name="Info Page" /> */}
               <NavButton close={this.toggleDrawer('left', false)} path="/addbathroom" name="Add Bathroom" />
             </>
           )}
@@ -103,7 +103,7 @@ class SwipeableTemporaryDrawer extends React.Component {
           {this.props.user.is_admin===true ? <NavButton close={this.toggleDrawer('left', false)} path="/admin" name="Admin" />:<></>}
 
           {/* Always show this link since the about page is not protected */}
-          <NavButton close={this.toggleDrawer('left', false)} path="/about" name="About" />
+          {/* <NavButton close={this.toggleDrawer('left', false)} path="/about" name="About" /> */}
           <GottaGoButton close={this.toggleDrawer('left', false)} />
         </SwipeableDrawer>
         <SwipeableDrawer
