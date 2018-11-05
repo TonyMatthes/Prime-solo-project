@@ -26,7 +26,7 @@ function* getDirections(action) {
 
          {headers:{ 'Access-Control-Allow-Origin': '*' },
              params:{
-             key:'AIzaSyB675LdwmXlgKaIpAvXeOUIjlZU8Zl1TkQ',
+             key:'AIzaSyC-b2LAbBFyBYO5gWoABNdGldy7HC_-laY',
              mode:'walking' // maybe change modes in the future
          }});
         yield put({ type: 'SET_DIRECTIONS',
