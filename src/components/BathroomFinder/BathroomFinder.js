@@ -34,22 +34,24 @@ class BathroomFinder extends Component {
                     <Grid item lg={6}>
                         {   /* this double ternary displays features if they're there, 
                                 a message if they're not, and nothing if nothing's selected, in reverse order */
-                            !this.props.selectedBathroom.amenitiesPresent ?
+                            !this.props.selectedBathroom.amenities_present ?
                                 <></>
                                 :
-                                !this.props.selectedBathroom.amenitiesPresent[0] ?
+                                !this.props.selectedBathroom.amenities_present[0] ?
                                     <>
                                         <Typography variant="h6">Features</Typography>
                                         <Typography variant="body1">No reported features, someone should get on that.</Typography>
                                     </>
                                     :
-                                    <>
+                                    <>  
+                                        <Typography variant="h6">Rating: {this.props.selectedBathroom.rating===null ? 'No Ratings' : Math.round(this.props.selectedBathroom.rating * 10)/10}</Typography>
                                         <Typography variant="h6">Features</Typography>
                                         <ul>
-                                            {this.props.selectedBathroom.amenitiesPresent.map(
+                                            {this.props.selectedBathroom.amenities_present.map(
                                                 (amenity, index) =>
                                                     <li key={index}><Typography variant="body1">{amenity}</Typography></li>)}
                                         </ul>
+
                                     </>
                         }
                     </Grid>

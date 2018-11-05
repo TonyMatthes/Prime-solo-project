@@ -2,11 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux'
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import MenuIcon from '@material-ui/icons/Menu';
-import UserIcon from '@material-ui/icons/Person';
+import Search from '@material-ui/icons/Search';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import FormControlLabel from '@material-ui/core/FormControlLabel'
-import RadioGroup from '@material-ui/core/RadioGroup'
 import Checkbox from '@material-ui/core/Checkbox'
 import Button from '@material-ui/core/Button'
 import IconButton from '@material-ui/core/IconButton';
@@ -69,14 +68,15 @@ class SwipeableTemporaryDrawer extends React.Component {
                             aria-label="Open drawer">
                             <MenuIcon />
                         </IconButton>
-                        <GottaGoButton close={this.toggleDrawer('left', false)} />
+
                         <Typography style={{ flex: 1 }} variant="h6">
                             Crappr
                             </Typography>
+                        <GottaGoButton close={this.toggleDrawer('left', false)} />
                         <IconButton
                             onClick={this.toggleDrawer('right', true)}
                             aria-label="Open drawer">
-                            <UserIcon />
+                            <Search color="secondary" />
                         </IconButton>
                     </Toolbar>
                 </AppBar>
@@ -110,7 +110,6 @@ class SwipeableTemporaryDrawer extends React.Component {
                     onClose={this.toggleDrawer('right', false)}
                     onOpen={this.toggleDrawer('right', true)}
                 >
-                    <pre>{JSON.stringify(this.state, null, 2)}</pre>
                     <Button onClick={this.clearSearch}>Clear Search</Button>
                     <Button onClick={this.filterSearch}>Narrow Your search</Button>
 

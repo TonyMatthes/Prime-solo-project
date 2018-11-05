@@ -47,10 +47,12 @@ router.get('/closest', (req, res) => {
             "bathroom"."longitude",
             "bathroom"."place_name",
             "bathroom"."additional_directions",
-            array_agg("amenities"."name") AS "amenities_present"
+            array_agg(DISTINCT "amenities"."name") AS "amenities_present",
+            AVG("ratings"."rating") AS "rating"
     FROM "amenities_bathroom_join"
     JOIN "amenities" ON "amenities"."id" = "amenities_bathroom_join"."amenities_id"
     FULL OUTER JOIN "bathroom" ON "bathroom"."id" = "amenities_bathroom_join"."bathroom_id"
+    FULL OUTER JOIN "ratings" ON "ratings"."bathroom_id" = "bathroom"."id"
     GROUP BY "bathroom"."id") 
     AS distances
     WHERE distance < 100
@@ -66,7 +68,6 @@ router.get('/closest', (req, res) => {
 
 });
 router.get('/search', (req, res) => {
-console.log(req.query)
     pool.query(
         `SELECT * FROM
             (SELECT "bathroom"."id", "bathroom"."address",
@@ -116,7 +117,6 @@ router.post('/', rejectUnauthenticated, (req, res) => {
       VALUES
       ${amenityMap};
         `
-        console.log(queryText)
     pool.query(queryText,
         [req.body.address, req.body.position.lat, req.body.position.lng, req.body.name, req.body.additionalDirections])
         .then(() => res.sendStatus(200))

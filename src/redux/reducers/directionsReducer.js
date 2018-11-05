@@ -1,5 +1,3 @@
-//will be used for directions
-
 const directions = (state = {polyline:[],steps:[]}, action) => {
   switch (action.type) {
     case 'SET_DIRECTIONS':

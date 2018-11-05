@@ -9,7 +9,7 @@ function strip(html)
    tmp.innerHTML = html;
    return tmp.textContent || tmp.innerText || "";
 }
-//puts spaces in directions
+//puts spaces in directions where html strip leaves smashed together camelcased words
 function unCamelCase (str){
     return str
         // insert a space between lower & upper
@@ -25,7 +25,7 @@ function* getDirections(action) {
         yield axios.get(`https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/directions/json?origin=${action.payload.origin.latitude},${action.payload.origin.longitude}&destination=${action.payload.destination.lat},${action.payload.destination.lng}`,
          {params:{
              key:'AIzaSyB675LdwmXlgKaIpAvXeOUIjlZU8Zl1TkQ',
-             mode:'walking'
+             mode:'walking' // maybe change modes in the future
          }});
         yield put({ type: 'SET_DIRECTIONS',
                      payload:

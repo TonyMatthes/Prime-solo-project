@@ -1,6 +1,5 @@
 const express = require('express');
 const pool = require('../modules/pool');
-const { rejectUnauthenticated } = require('../modules/authentication-middleware');
 const router = express.Router();
 
 
@@ -14,7 +13,7 @@ router.get('/', (req, res) => {
             res.send((results.rows))
         })
         .catch((error) => {
-            console.log('error getting bathrooms', error)
+            console.log('error getting amenities', error)
         })
 
 });
