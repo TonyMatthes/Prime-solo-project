@@ -22,10 +22,8 @@ function unCamelCase (str){
 function* getDirections(action) {
     try {
         const response = 
-        yield axios.get(`https://maps.googleapis.com/maps/api/directions/json?origin=${action.payload.origin.latitude},${action.payload.origin.longitude}&destination=${action.payload.destination.lat},${action.payload.destination.lng}`,
-
-         {headers:{ 'Access-Control-Allow-Origin': '*' },
-             params:{
+        yield axios.get(`https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/directions/json?origin=${action.payload.origin.latitude},${action.payload.origin.longitude}&destination=${action.payload.destination.lat},${action.payload.destination.lng}`,
+         {params:{
              key:'AIzaSyC-b2LAbBFyBYO5gWoABNdGldy7HC_-laY',
              mode:'walking' // maybe change modes in the future
          }});
