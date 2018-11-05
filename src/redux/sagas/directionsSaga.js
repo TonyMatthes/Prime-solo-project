@@ -23,7 +23,9 @@ function* getDirections(action) {
     try {
         const response = 
         yield axios.get(`https://maps.googleapis.com/maps/api/directions/json?origin=${action.payload.origin.latitude},${action.payload.origin.longitude}&destination=${action.payload.destination.lat},${action.payload.destination.lng}`,
-         {params:{
+
+         {headers:{ 'Access-Control-Allow-Origin': '*' },
+             params:{
              key:'AIzaSyB675LdwmXlgKaIpAvXeOUIjlZU8Zl1TkQ',
              mode:'walking' // maybe change modes in the future
          }});
