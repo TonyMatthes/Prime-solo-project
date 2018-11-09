@@ -53,7 +53,7 @@ class App extends Component {
             <SideDrawer />
             <Switch>
               {/* Visiting localhost:3000 will redirect to localhost:3000/home */}
-              <Redirect exact from="/" to="/home" />
+              <Redirect exact from="/" to="/bathroomfinder" />
 
               <Route
                 exact
